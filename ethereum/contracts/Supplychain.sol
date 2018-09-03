@@ -156,7 +156,7 @@ contract Supplychain{
 
         medicines[id] = Medicine(_name, _description,true, _value, _validity);
         medicineNames.push(id);
-        wallets[manager].medicines;
+        wallets[manager].medicines[id] = 0;
 
         emit medicineCreated(id);
     }
@@ -251,7 +251,7 @@ contract Supplychain{
     }
     /*Funcao que serve para um usuario final comprar o medicamento de alguma parte da cadeia*/
     function buyMedicine(address from, string uuid)public payable
-    personExists(from) personExists(msg.sender) productExists(uuid) productOwner(from, uuid)
+    productExists(uuid) productOwner(from, uuid)
     validProduct(uuid) checkTime{
 
         require(msg.value >= medicines[products[uuid].id].value, "Not enough balance");
