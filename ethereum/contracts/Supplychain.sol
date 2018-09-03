@@ -19,11 +19,11 @@ contract Supplychain{
     //representa a carteira de uma pessoa
     struct Wallet{
 
-        mapping(string => uint) medicines;
-        mapping(string => bool) products;
-        Function func;
+        mapping(string => uint) medicines;//tipos de remedios que a carteira possui
+        mapping(string => bool) products;//produtos individuais que a carteira possui
+        Function func; //funcao dessa carteira na cadeia supplychain
     }
-
+   //representa um tipo de medicamento
     struct Medicine{
 
         string name;
@@ -32,22 +32,24 @@ contract Supplychain{
         uint value;
         uint validity;
     }
-
+    //representa um produto único
     struct Product{
 
         string id; //Tipo do medicamento
         address owner;//dono corrente
-        bool isValid;
+        bool isValid; //esta na validade
         uint creationTime;
+        address[] path;
+        uint[] timestamps;
     }
-
+    //representa um possivel sinistro para um produto no meio da cadeia
     struct Sinister{
 
         string title;
         string description;
-        string envolvedProduct;
-        address responsible;
-        uint timestamp;
+        string envolvedProduct; //identificador do produto unico
+        address responsible; //quem estava de posse de tal produto
+        uint timestamp; //hora
     }
 
 
@@ -62,16 +64,18 @@ contract Supplychain{
     mapping(address => Wallet)private wallets;
     //mapeia um produto unico ao seu tipo de medicamento e seu dono
     mapping(string => Product)private products;
-
+    //mapeia id de um produto verificando se ele existe na cadeia
     mapping(string => bool)private productExist;
 
     string[]public medicineNames;
     string[]public allProducts;
-    mapping(address => bool)public participates;
+    //verifica se uma carteira participa ou nao da cadeia
+    mapping(address => bool)private participates;
     //Time when contract was deployed
     uint begin;
-
+    //lista de recibos obtidos por um endereço
     mapping(address => Receive[]) receives;
+    //lista de sinistros verificados por um endereço
     mapping(address => Sinister[]) sinisters;
 
     event medicineCreated(string id);
@@ -82,6 +86,7 @@ contract Supplychain{
     event FunctionDesignated(address to, Function f);
     event ProductOutOfValidity(string uuid, string id, uint time);
     event NewSinister(string title, string uuid, address responsible);
+    event PathIncremented(string uuid, string id, address adr, uint timestamp);
 
     modifier onlyManager{
         require(msg.sender == manager, "only manager");
@@ -130,7 +135,7 @@ contract Supplychain{
         require(products[uuid].isValid, "Only valid producsts here");
         _;
     }
-
+    //modifier que é chamado no inicio de toda transação para verificar se os produtos estao na validade
     modifier checkTime{
         checkValidity();
         _;
@@ -146,10 +151,8 @@ contract Supplychain{
 
     /*Funcao que apenas cria um tipo de medicamentos para ficar d=*/
     function medicineCreate(string id, string _name, string _description, uint _value, uint _validity)
-    public onlyManager{
+    public onlyManager checkTime{
         require(!medicines[id].initialized, "Medicine already exists");
-
-        checkValidity();
 
         medicines[id] = Medicine(_name, _description,true, _value, _validity);
         medicineNames.push(id);
@@ -168,7 +171,12 @@ contract Supplychain{
         wallets[msg.sender].medicines[id] += 1;
         productExist[uuid] = true;
         wallets[msg.sender].products[uuid] = true;
-        products[uuid] = Product(id, msg.sender, true, time);
+
+        address[] memory array;
+        uint[] memory times;
+        products[uuid] = Product(id, msg.sender, true, time, array, times);
+
+        incrementPath(uuid, msg.sender);
         allProducts.push(uuid);
 
         emit productGenerated(msg.sender,uuid,id);
@@ -231,6 +239,7 @@ contract Supplychain{
     productExists(uuid) productOwner(msg.sender, uuid) checkTime{
 
         transferOperation(msg.sender, uuid, to);
+        incrementPath(uuid, to);
     }
     /*Funcao que retira a posse do medicamento de alguem*/
     function sendMedicine(string uuid)private{
@@ -297,6 +306,31 @@ contract Supplychain{
        emit NewSinister(_title, _product, msg.sender);
 
        return sinister;
+   }
+
+   function incrementPath(string uuid, address adr)private productExists(uuid){
+
+        uint time = now - begin;
+
+        products[uuid].path.push(adr);
+        products[uuid].timestamps.push(time);
+
+        emit PathIncremented(uuid, products[uuid].id, adr, time);
+   }
+
+   function trackProduct(string uuid, uint timestamp)public view productExists(uuid) returns(address){
+      uint currentTime = now - begin;
+
+      require(timestamp <= currentTime, "Please enter a valid time");
+
+      uint[] memory timestamps = products[uuid].timestamps;
+
+      for(uint i = 0; i < timestamps.length - 1; i++){
+        if(timestamps[i] <= timestamp && timestamp <= timestamps[i+1]){
+          return products[uuid].path[i];
+        }
+      }
+      return products[uuid].owner;
    }
 
 }
