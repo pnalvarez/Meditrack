@@ -29,8 +29,9 @@ contract Supplychain{
         string name;
         string description;
         bool initialized;
-        uint value;
+        uint value; //preço
         uint validity;
+        /* string[] components; */
     }
     //representa um produto único
     struct Product{
@@ -42,6 +43,13 @@ contract Supplychain{
         address[] path;
         uint[] timestamps;
     }
+    //Produto incompleto que nao pode sair das maos do produtor enquanto nao estiver pronto
+    /* struct IncompleteProduct{
+
+      string id;
+      address owner;
+      string[] components;
+    } */
     //representa um possivel sinistro para um produto no meio da cadeia
     struct Sinister{
 
@@ -78,16 +86,20 @@ contract Supplychain{
     //lista de sinistros verificados por um endereço
     mapping(address => Sinister[]) sinisters;
 
-    event medicineCreated(string id);
-    event medicineTransfered(string uuid, string id, address from, address to);
-    event productGenerated(address by, string uuid, string id);
-    event changeSent(address to, uint change);
-    event medicineBought(address by, address from, string uuid);
-    event FunctionDesignated(address to, Function f);
-    event ProductOutOfValidity(string uuid, string id, uint time);
-    event NewSinister(string title, string uuid, address responsible);
-    event PathIncremented(string uuid, string id, address adr, uint timestamp);
+    /* mapping(string => bool) knownComponent;
+    mapping(string => IncompleteProduct) incompleteProducts; */
 
+    event medicineCreated(string id); //novo tipo de medicamento criado
+    event medicineTransfered(string uuid, string id, address from, address to);//medicamento transerido entre carteiras
+    event productGenerated(address by, string uuid, string id);//produto gerado por um produtor
+    event changeSent(address to, uint change); //troco enviado
+    event medicineBought(address by, address from, string uuid); //produto comprado
+    event FunctionDesignated(address to, Function f); //funcao designada
+    event ProductOutOfValidity(string uuid, string id, uint time); //produto venceu a validade
+    event NewSinister(string title, string uuid, address responsible); //sinistro notificado
+    event PathIncremented(string uuid, string id, address adr, uint timestamp); //caminho de um produto incrementado
+
+    /*somente o administrador pode mexer*/
     modifier onlyManager{
         require(msg.sender == manager, "only manager");
         _;
@@ -148,6 +160,12 @@ contract Supplychain{
         designateFunction(msg.sender, Function.Productor);
         participates[msg.sender] = true;
     }
+
+    // function createComponent(string component) onlyManager{
+    //   require(knownComponent[component], "This component has already been created");
+
+    //   knownComponent[component] = true;
+    // }
 
     /*Funcao que apenas cria um tipo de medicamentos para ficar d=*/
     function medicineCreate(string id, string _name, string _description, uint _value, uint _validity)
@@ -251,8 +269,8 @@ contract Supplychain{
     }
     /*Funcao que serve para um usuario final comprar o medicamento de alguma parte da cadeia*/
     function buyMedicine(address from, string uuid)public payable
-    productExists(uuid) productOwner(from, uuid)
-    validProduct(uuid) checkTime{
+    productExists(uuid) productOwner(from, uuid) checkTime
+    validProduct(uuid){
 
         require(msg.value >= medicines[products[uuid].id].value, "Not enough balance");
 
@@ -296,7 +314,7 @@ contract Supplychain{
        }
    }
 
-   function notifySinister(string _title, string _description, string _product)public
+   function notifySinister(string _title, string _description, string _product)public checkTime
    productExists(_product) productOwner(msg.sender, _product) returns(Sinister){
 
        uint _timestamp = now - begin;
@@ -307,7 +325,7 @@ contract Supplychain{
 
        return sinister;
    }
-
+   /*salva um novo usuário no caminho percorrido pelo produto uuid*/
    function incrementPath(string uuid, address adr)private productExists(uuid){
 
         uint time = now - begin;
@@ -317,7 +335,7 @@ contract Supplychain{
 
         emit PathIncremented(uuid, products[uuid].id, adr, time);
    }
-
+   /*funcao que retorna onde estava um produto uuid dado um horário específico*/
    function trackProduct(string uuid, uint timestamp)public view productExists(uuid) returns(address){
       uint currentTime = now - begin;
 

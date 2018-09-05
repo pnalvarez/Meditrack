@@ -14,8 +14,8 @@ beforeEach(async () =>{
   accounts = await web3.eth.getAccounts();
 
   supplychain = await new web3.eth.Contract(JSON.parse(compiledSupplychain.interface))
-  .deploy({data: compiledSupplychain.bytecode})
-  .send({from: accounts[0], gas: '1000000'});
+ .deploy({ data: compiledSupplychain.bytecode})
+ .send({ from: accounts[0], gas: '1000000' })
 
 });
 
@@ -117,7 +117,7 @@ describe('Supplychain', () =>{
 
   it('successfully sends change to recipient', async () =>{
 
-    
+
   });
 
   it('correctly checks validity', async () =>{
