@@ -351,4 +351,62 @@ contract Supplychain{
       return products[uuid].owner;
    }
 
+   //getters
+
+   function getMedicineName(string id)public returns(string){
+     return medicines[id].name;
+   }
+   function getMedicineDescription(string id)public returns(string){
+     return medicines[id].description;
+   }
+   function getMedicineValue(string id)public returns(uint){
+     return medicines[id].value;
+   }
+   function getMedicineValidity(string id)public returns(uint){
+     return medicines[id].validity;
+   }
+
+   function getWalletMedicineQtd(address adr, string id)public returns(uint){
+      return wallets[adr].medicines[id];
+   }
+   function getWalletProduct(address adr, string uuid)public returns(bool){
+     return wallets[adr].products[uuid];
+   }
+   function getWalletFunction(address adr)public returns(string){
+
+     if(wallets[adr].func == Function.Productor){
+       return "Productor";
+     }
+     else if(wallets[adr].func == Function.Stock){
+       return "Stock";
+     }
+     else if(wallets[adr].func == Function.Transport){
+       return "Transport";
+     }
+     else if(wallets[adr].func == Function.Final){
+       return "Final";
+     }
+     else{
+       return "Buyer";
+     }
+   }
+
+   function getProductExist(string uuid)public returns(bool){
+     return productExist[uuid];
+   }
+
+   function getProductId(string uuid)public returns(string){
+     return products[uuid].id;
+   }
+   function getProductOwner(string uuid)public returns(address){
+     return products[uuid].owner;
+   }
+   function getProductValid(string uuid)public returns(bool){
+     return products[uuid].isValid;
+   }
+   function getProductCreationTime(string uuid)public returns(uint){
+     return products[uuid].creationTime;
+   }
+
+
 }
