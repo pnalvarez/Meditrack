@@ -108,7 +108,7 @@ contract Supplychain{
     event medicineTransfered(string uuid, string id, address from, address to);//medicamento transerido entre carteiras
     event productGenerated(address by, string uuid, string id);//produto gerado por um produtor
     event changeSent(address to, uint change); //troco enviado
-    event medicineBought(address by, address from, string uuid); //produto comprado
+    event medicineBought(address by, string uuid); //produto comprado
     event FunctionDesignated(address to, Function f); //funcao designada
     event ProductOutOfValidity(string uuid, string id, uint time); //produto venceu a validade
     event NewSinister(string title, string uuid, address responsible); //sinistro notificado
@@ -312,7 +312,7 @@ contract Supplychain{
        }
   }
 
-  function searchProductIndex(string uuid)private view returns(int){
+  function searchProductIndex(string uuid)public view returns(int){
 
       for(int i = 0; i < int(allProducts.length); i++){
         uint ui = uint(i);
@@ -441,14 +441,17 @@ contract Supplychain{
    function buyMedicine(address from, string uuid)public payable
    only(Function.Buyer)
    productExists(uuid) productOwner(from, uuid) checkTime
-   validProduct(uuid) supplychainRule(from, msg.sender){
+   validProduct(uuid) supplychainRule(from, msg.sender)
+   returns(uint){
 
        require(msg.value >= medicines[products[uuid].id].value, "Not enough balance");
 
-       sendChange();
+       uint change = sendChange();
        transferOperation(from, uuid, msg.sender);
 
-       emit medicineBought(msg.sender, from, uuid);
+       emit medicineBought(msg.sender, uuid);
+
+       return change;
    }
 
    /*Função chamada por um usuário para notificar um sinistro com um produto de sua posse*/
