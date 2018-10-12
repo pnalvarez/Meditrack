@@ -11,7 +11,7 @@ contract Supplychain{
         Nothing, Productor, Stock, Transport, CirurgicCenter, Seller,  Buyer
     }
     //representa um recibo para quem adquiriu um medicamento
-    struct Receive{
+    struct Receive{ //DÁ PRA TIRAR DA BLOCKCHAIN
 
         string uuid;
         string id;
@@ -22,19 +22,19 @@ contract Supplychain{
     //representa a carteira de uma pessoa ou depósito
     struct Wallet{
 
-        mapping(string => uint) medicines;//tipos de remedios que a carteira possui
+        mapping(string => uint) medicines;//tipos de remedios que a carteira possui //DÁ PRA TIRAR DA BLOCKCHAIN
         mapping(string => bool) products;//produtos individuais que a carteira possui
-        uint maxWeight;
-        uint currentWeight;
+        uint maxWeight; //DÁ PRA TIRAR DA BLOCKCHAIN
+        uint currentWeight; //DÁ PRA TIRAR DA BLOCKCHAIN
         Function func; //funcao dessa carteira na cadeia supplychain
     }
    //representa um tipo de medicamento
     struct Medicine{
 
-        string name;
+        string name; 
         string description;
         bool initialized;
-        uint weigth;
+        uint weigth; //DÁ PRA TIRAR DA BLOCKCHAIN
         uint value; //preço
         uint validity;
         /* string[] components; */
@@ -235,14 +235,14 @@ contract Supplychain{
    //AUXILIAR
    //AUXILIAR
 
-   /*Função que designa uma função para uma carteira*/
+   /*Função que designa uma função para uma carteira*/ //GeneralSupplychain
    function designateFunction(address wallet, string func)private checkTime{ //Essa funcao nao esta sendo usada
 
        wallets[wallet].func = stringToFunction[func];
        emit FunctionDesignated(wallet, stringToFunction[func]);
    }
 
-   /*Busca sequencial de um recibo*/
+   /*Busca sequencial de um recibo*/ //GeneralSupplychain
    function searchReceive(address a, string uuid)private view returns(int){
 
        for(int i = 0; i < int(receives[a].length); i++){
@@ -255,7 +255,7 @@ contract Supplychain{
        return -1;
    }
 
-   /*Transfere um produto de um endereco para outro*/
+   /*Transfere um produto de um endereco para outro*/ //Wallet
    function transferOperation(address from, string uuid, address to)private
    returns(Receive){
 
@@ -284,7 +284,7 @@ contract Supplychain{
    }
 
    /*Funcao que retira a posse do medicamento de alguem*/
-   function sendMedicine(string uuid)private{
+   function sendMedicine(string uuid)private{ //Wallet
 
         string memory id = products[uuid].id;
 
@@ -293,7 +293,7 @@ contract Supplychain{
    }
 
    /*Funcao que envia o troco de funcoes payable*/
-   function sendChange()private returns(uint){
+   function sendChange()private returns(uint){ //Wallet
        uint balance = address(this).balance;
        msg.sender.transfer(balance);
 
@@ -302,7 +302,7 @@ contract Supplychain{
        return balance;
    }
 
-   /*Funcao auxiliar para comparar strings*/
+   /*Funcao auxiliar para comparar strings*/ //GeneralSupplychain
    function compareStrings (string a, string b)private pure returns (bool){
        if(bytes(a).length != bytes(b).length){
            return false;
@@ -312,7 +312,7 @@ contract Supplychain{
        }
   }
 
-  function searchProductIndex(string uuid)public view returns(int){
+  function searchProductIndex(string uuid)public view returns(int){ //GeneralSupplychain
 
       for(int i = 0; i < int(allProducts.length); i++){
         uint ui = uint(i);
@@ -327,7 +327,7 @@ contract Supplychain{
   }
 
   /*Funcao que verifica a validade de cada produto da cadeia*/
-  function checkValidity()private{
+  function checkValidity()private{ //ValidityIterator
 
       for(uint i = 0; i < allProducts.length; i++){
 
@@ -344,7 +344,7 @@ contract Supplychain{
       }
   }
 
-  /*salva um novo usuário no caminho percorrido pelo produto uuid*/
+  /*salva um novo usuário no caminho percorrido pelo produto uuid*/ //Wallet
   function incrementPath(string uuid, address adr)private productExists(uuid){
 
        uint time = now - begin;
@@ -355,7 +355,7 @@ contract Supplychain{
        emit PathIncremented(uuid, products[uuid].id, adr, time);
   }
 
-  function discardProduct(string uuid)private productExists(uuid){
+  function discardProduct(string uuid)private productExists(uuid){ //Sinisters
 
       address owner = getOwnerof(uuid);
       string storage id = products[uuid].id;
@@ -394,6 +394,7 @@ contract Supplychain{
        medicineNames.push(id);
        wallets[manager].medicines[id] = 0;
 
+       
        emit medicineCreated(id);
    }
 
