@@ -29,7 +29,7 @@ class SupplychainIndex extends Component{
                       <li>2</li>
                   </ul>
               </div>
-              
+            
             </Layout>
             
         );
