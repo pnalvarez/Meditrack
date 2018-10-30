@@ -38,8 +38,7 @@ exports.default = function (props) {
             fileName: _jsxFileName,
             lineNumber: 11
         }
-    })), _react2.default.createElement('div', {
-        __source: {
+    })), _react2.default.createElement('div', { style: { marginTop: "20px" }, __source: {
             fileName: _jsxFileName,
             lineNumber: 13
         }
@@ -48,40 +47,6 @@ exports.default = function (props) {
             fileName: _jsxFileName,
             lineNumber: 14
         }
-    }), props.children, _react2.default.createElement(_semanticUiReact.Container, {
-        __source: {
-            fileName: _jsxFileName,
-            lineNumber: 16
-        }
-    }, _react2.default.createElement('h1', {
-        __source: {
-            fileName: _jsxFileName,
-            lineNumber: 17
-        }
-    }, 'oi'), _react2.default.createElement('h2', {
-        __source: {
-            fileName: _jsxFileName,
-            lineNumber: 18
-        }
-    }, 'oi'), _react2.default.createElement('h3', {
-        __source: {
-            fileName: _jsxFileName,
-            lineNumber: 19
-        }
-    }, 'oi')), _react2.default.createElement(_semanticUiReact.Container, { floated: 'right', __source: {
-            fileName: _jsxFileName,
-            lineNumber: 22
-        }
-    }, _react2.default.createElement('h1', {
-        __source: {
-            fileName: _jsxFileName,
-            lineNumber: 23
-        }
-    }, 'oi'), _react2.default.createElement('h1', {
-        __source: {
-            fileName: _jsxFileName,
-            lineNumber: 24
-        }
-    }, 'oi'))));
+    }), props.children));
 };
-//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImNvbXBvbmVudHMvbGF5b3V0LmpzIl0sIm5hbWVzIjpbIlJlYWN0IiwiQ29tcG9uZW50IiwiQ29udGFpbmVyIiwiSGVhZGVyIiwiSGVhZCIsInByb3BzIiwiY2hpbGRyZW4iXSwibWFwcGluZ3MiOiI7Ozs7OztBQUFBLEFBQU8sQUFBUzs7OztBQUNoQixBQUFROztBQUNSLEFBQU8sQUFBWTs7OztBQUNuQixBQUFPLEFBRVA7Ozs7Ozs7O2tCQUFlLFVBQUEsQUFBQyxPQUFRLEFBRXBCOzsyQkFDSSxBQUFDOztzQkFBRDt3QkFBQSxBQUNJO0FBREo7QUFBQSxLQUFBLGtCQUNJLEFBQUM7O3NCQUFEO3dCQUFBLEFBQ0k7QUFESjtBQUFBLCtDQUNVLEtBQU4sQUFBVSxjQUFhLE1BQXZCLEFBQTRCO3NCQUE1Qjt3QkFGUixBQUNJLEFBQ0ksQUFFSjtBQUZJO3lCQUVKLGNBQUE7O3NCQUFBO3dCQUFBLEFBQ0k7QUFESjtBQUFBLHVCQUNJLEFBQUM7O3NCQUFEO3dCQURKLEFBQ0ksQUFDQztBQUREO0FBQUEsY0FESixBQUVXLEFBQ1AsMEJBQUEsQUFBQzs7c0JBQUQ7d0JBQUEsQUFDSTtBQURKO0FBQUEsdUJBQ0ksY0FBQTs7c0JBQUE7d0JBQUE7QUFBQTtBQUFBLE9BREosQUFDSSxBQUNBLHVCQUFBLGNBQUE7O3NCQUFBO3dCQUFBO0FBQUE7QUFBQSxPQUZKLEFBRUksQUFDQSx1QkFBQSxjQUFBOztzQkFBQTt3QkFBQTtBQUFBO0FBQUEsT0FOUixBQUdJLEFBR0ksQUFHSix3QkFBQSxBQUFDLDRDQUFVLFNBQVgsQUFBbUI7c0JBQW5CO3dCQUFBLEFBQ0k7QUFESjt1QkFDSSxjQUFBOztzQkFBQTt3QkFBQTtBQUFBO0FBQUEsT0FESixBQUNJLEFBQ0EsdUJBQUEsY0FBQTs7c0JBQUE7d0JBQUE7QUFBQTtBQUFBLE9BaEJoQixBQUNJLEFBSUksQUFTSSxBQUVJLEFBTW5CO0FBeEJEIiwiZmlsZSI6ImxheW91dC5qcyIsInNvdXJjZVJvb3QiOiIvVXNlcnMvcGVkcm8uYWx2YXJlei9EZXNrdG9wL1Byb2pldG9GaW5hbCJ9
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImNvbXBvbmVudHMvbGF5b3V0LmpzIl0sIm5hbWVzIjpbIlJlYWN0IiwiQ29tcG9uZW50IiwiQ29udGFpbmVyIiwiSGVhZGVyIiwiSGVhZCIsInByb3BzIiwibWFyZ2luVG9wIiwiY2hpbGRyZW4iXSwibWFwcGluZ3MiOiI7Ozs7OztBQUFBLEFBQU8sQUFBUzs7OztBQUNoQixBQUFROztBQUNSLEFBQU8sQUFBWTs7OztBQUNuQixBQUFPLEFBRVA7Ozs7Ozs7O2tCQUFlLFVBQUEsQUFBQyxPQUFRLEFBRXBCOzsyQkFDSSxBQUFDOztzQkFBRDt3QkFBQSxBQUNJO0FBREo7QUFBQSxLQUFBLGtCQUNJLEFBQUM7O3NCQUFEO3dCQUFBLEFBQ0k7QUFESjtBQUFBLCtDQUNVLEtBQU4sQUFBVSxjQUFhLE1BQXZCLEFBQTRCO3NCQUE1Qjt3QkFGUixBQUNJLEFBQ0ksQUFFSjtBQUZJO3lCQUVKLGNBQUEsU0FBSyxPQUFPLEVBQUMsV0FBYixBQUFZLEFBQVk7c0JBQXhCO3dCQUFBLEFBQ0k7QUFESjt1QkFDSSxBQUFDOztzQkFBRDt3QkFESixBQUNJLEFBQ0M7QUFERDtBQUFBLGNBTlosQUFDSSxBQUlJLEFBRVcsQUFJdEI7QUFiRCIsImZpbGUiOiJsYXlvdXQuanMiLCJzb3VyY2VSb290IjoiL1VzZXJzL3BlZHJvLmFsdmFyZXovRGVza3RvcC9Qcm9qZXRvRmluYWwifQ==

@@ -4,14 +4,6 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _regenerator = require('babel-runtime/regenerator');
-
-var _regenerator2 = _interopRequireDefault(_regenerator);
-
-var _asyncToGenerator2 = require('babel-runtime/helpers/asyncToGenerator');
-
-var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
-
 var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
 
 var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
@@ -58,64 +50,48 @@ var Header = function (_Component) {
 
     (0, _createClass3.default)(Header, [{
         key: 'render',
+
+        // static async getInitialProps(){
+
+        //     const accounts = await web3.eth.getAccounts();
+        //     const manager = await supplychain.methods.manager().call();
+        //     return {accounts, manager};
+        // }
+
         value: function render() {
 
-            return _react2.default.createElement(_semanticUiReact.Menu, { style: { marginTop: '10px' }, __source: {
+            return _react2.default.createElement(_semanticUiReact.Menu, {
+                __source: {
                     fileName: _jsxFileName,
-                    lineNumber: 16
+                    lineNumber: 17
                 }
             }, _react2.default.createElement('a', { className: 'item', __source: {
                     fileName: _jsxFileName,
-                    lineNumber: 18
+                    lineNumber: 19
                 }
-            }, 'UserId'), _react2.default.createElement(_semanticUiReact.Menu.Menu, { position: 'right', __source: {
+            }, 'UserId'), _react2.default.createElement('div', {
+                __source: {
                     fileName: _jsxFileName,
                     lineNumber: 22
                 }
-            }, _react2.default.createElement('a', { className: 'item', __source: {
+            }, this.props.user), _react2.default.createElement(_semanticUiReact.Menu.Menu, { position: 'right', __source: {
                     fileName: _jsxFileName,
-                    lineNumber: 24
+                    lineNumber: 26
                 }
-            }, 'Capacity'), _react2.default.createElement('a', { className: 'item', __source: {
+            }, _react2.default.createElement('a', { className: 'item', __source: {
                     fileName: _jsxFileName,
                     lineNumber: 28
                 }
+            }, 'Capacity'), _react2.default.createElement('a', { className: 'item', __source: {
+                    fileName: _jsxFileName,
+                    lineNumber: 32
+                }
             }, 'manager')));
         }
-    }], [{
-        key: 'getInitialProps',
-        value: function () {
-            var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee() {
-                var accounts;
-                return _regenerator2.default.wrap(function _callee$(_context) {
-                    while (1) {
-                        switch (_context.prev = _context.next) {
-                            case 0:
-                                _context.next = 2;
-                                return _web2.default.eth.getAccounts();
-
-                            case 2:
-                                accounts = _context.sent;
-                                return _context.abrupt('return', { accounts: accounts });
-
-                            case 4:
-                            case 'end':
-                                return _context.stop();
-                        }
-                    }
-                }, _callee, this);
-            }));
-
-            function getInitialProps() {
-                return _ref.apply(this, arguments);
-            }
-
-            return getInitialProps;
-        }()
     }]);
 
     return Header;
 }(_react.Component);
 
 exports.default = Header;
-//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImNvbXBvbmVudHMvSGVhZGVyLmpzIl0sIm5hbWVzIjpbIlJlYWN0IiwiQ29tcG9uZW50IiwiTWVudSIsIndlYjMiLCJIZWFkZXIiLCJtYXJnaW5Ub3AiLCJldGgiLCJnZXRBY2NvdW50cyIsImFjY291bnRzIl0sIm1hcHBpbmdzIjoiOzs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7O0FBQUEsQUFBTyxBQUFROzs7O0FBQ2YsQUFBUTs7QUFDUixBQUFPLEFBQVU7Ozs7Ozs7OztJLEFBRVg7Ozs7Ozs7Ozs7O2lDQVFNLEFBRUo7O21DQUNJLEFBQUMsdUNBQUssT0FBTyxFQUFDLFdBQWQsQUFBYSxBQUFXOzhCQUF4QjtnQ0FBQSxBQUVJO0FBRko7YUFBQSxrQkFFSSxjQUFBLE9BQUcsV0FBSCxBQUFhOzhCQUFiO2dDQUFBO0FBQUE7ZUFGSixBQUVJLEFBSUEsMkJBQUMsY0FBRCxzQkFBQSxBQUFNLFFBQUssVUFBWCxBQUFvQjs4QkFBcEI7Z0NBQUEsQUFFSTtBQUZKOytCQUVJLGNBQUEsT0FBRyxXQUFILEFBQWE7OEJBQWI7Z0NBQUE7QUFBQTtlQUZKLEFBRUksQUFJQSw2QkFBQSxjQUFBLE9BQUcsV0FBSCxBQUFhOzhCQUFiO2dDQUFBO0FBQUE7ZUFiWixBQUNJLEFBTUksQUFNSSxBQU1mOzs7Ozs7Ozs7Ozs7dUNBekIwQixjQUFBLEFBQUssSUFBTCxBQUFTLEE7O2lDQUExQjtBO2lFQUNDLEVBQUMsVUFBRCxBOzs7Ozs7Ozs7Ozs7Ozs7Ozs7O0FBTE0sQSxBQStCckI7O2tCQUFBLEFBQWUiLCJmaWxlIjoiSGVhZGVyLmpzIiwic291cmNlUm9vdCI6Ii9Vc2Vycy9wZWRyby5hbHZhcmV6L0Rlc2t0b3AvUHJvamV0b0ZpbmFsIn0=
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImNvbXBvbmVudHMvSGVhZGVyLmpzIl0sIm5hbWVzIjpbIlJlYWN0IiwiQ29tcG9uZW50IiwiTWVudSIsIndlYjMiLCJIZWFkZXIiLCJwcm9wcyIsInVzZXIiXSwibWFwcGluZ3MiOiI7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7O0FBQUEsQUFBTyxBQUFROzs7O0FBQ2YsQUFBUTs7QUFDUixBQUFPLEFBQVU7Ozs7Ozs7OztJLEFBRVg7Ozs7Ozs7Ozs7YUFFRjs7QUFFQTs7QUFDQTtBQUNBO0FBQ0E7OztpQ0FFUSxBQUVKOzttQ0FDSSxBQUFDOzs4QkFBRDtnQ0FBQSxBQUVJO0FBRko7QUFBQSxhQUFBLGtCQUVJLGNBQUEsT0FBRyxXQUFILEFBQWE7OEJBQWI7Z0NBQUE7QUFBQTtlQUZKLEFBRUksQUFHQSwyQkFBQSxjQUFBOzs4QkFBQTtnQ0FBQSxBQUNLO0FBREw7QUFBQSxvQkFDSyxBQUFLLE1BTmQsQUFLSSxBQUNnQixBQUdoQix1QkFBQyxjQUFELHNCQUFBLEFBQU0sUUFBSyxVQUFYLEFBQW9COzhCQUFwQjtnQ0FBQSxBQUVJO0FBRko7K0JBRUksY0FBQSxPQUFHLFdBQUgsQUFBYTs4QkFBYjtnQ0FBQTtBQUFBO2VBRkosQUFFSSxBQUlBLDZCQUFBLGNBQUEsT0FBRyxXQUFILEFBQWE7OEJBQWI7Z0NBQUE7QUFBQTtlQWhCWixBQUNJLEFBU0ksQUFNSSxBQU1mOzs7OztBQWpDZ0IsQSxBQW9DckI7O2tCQUFBLEFBQWUiLCJmaWxlIjoiSGVhZGVyLmpzIiwic291cmNlUm9vdCI6Ii9Vc2Vycy9wZWRyby5hbHZhcmV6L0Rlc2t0b3AvUHJvamV0b0ZpbmFsIn0=
