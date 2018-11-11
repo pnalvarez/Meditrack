@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {Menu} from 'semantic-ui-react';
 import web3 from '../ethereum/web3';
+import {Link} from '../routes'
 
 class Header extends Component{
 
@@ -15,23 +16,16 @@ class Header extends Component{
 
         return (
             <Menu>
-    
-                <a className="item">
-                    UserId
-                </a>
-                <div>
-                    {this.props.user}
-                </div>
-    
+                <Link route="/">
+                  <a className="item">Blockcine</a>
+                </Link>
                 <Menu.Menu position="right">
-                
-                    <a className="item">
-                        Capacity
-                    </a>
-    
-                    <a className="item">
-                        manager
-                    </a>
+                    <Link route="/">
+                        <a className="item">Products</a>
+                    </Link>
+                    <Link route="/createWallet">
+                        <a className="item">+Wallet</a>
+                    </Link>
                 </Menu.Menu>
             </Menu>
         );

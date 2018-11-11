@@ -4,6 +4,7 @@ import {Card, Button, Menu} from 'semantic-ui-react';
 import supplychain from '../ethereum/supplychain.js';
 import Layout from '../components/layout';
 import InfoCards from '../components/InfoCards/InfoCards'
+import {Link} from '../routes'
 
 class SupplychainIndex extends Component{
 
@@ -14,7 +15,8 @@ class SupplychainIndex extends Component{
         currentWeight: '',
         sinisters: '',
         balance: '',
-        receives: ''
+        receives: '',
+        medicines: []
     }
 
     userIsManager(){
@@ -36,6 +38,7 @@ class SupplychainIndex extends Component{
         const capacity = await supplychain.methods.getWalletWeight(accounts[0]).call()
         const balance = await supplychain.methods.getBalanceof(accounts[0]).call()
         const currentWeight = await supplychain.methods.getWalletCurrentWeight(accounts[0]).call()
+        // const medicines = await supplychain.methods.medicineNames().call()
         this.setState({account: accounts[0], funcao: funcao, capacity: capacity, balance: balance, currentWeight: currentWeight})
     }
 
@@ -43,7 +46,7 @@ class SupplychainIndex extends Component{
 
         return(
             <Layout>
-             {this.state.account !== '0x0'?
+               {/* <h1>{this.state.medicines}</h1> */}
                <div style={{alignContent: "center"}}>
                   <h1>Menu Principal</h1>
                   {this.props.manager === this.state.account ? <h2 style={{color: "blue"}}>Manager</h2> : null}
@@ -60,22 +63,17 @@ class SupplychainIndex extends Component{
                     {this.props.manager === this.state.account ? <Button content="Wallets" icon="address card" primary style={{border: "1px solid gray", marginBotton: "3px"}}/> : null}
                     <Button content="Alertas" icon="exclamation triangle" primary style={{border: "1px solid gray", marginBotton: "3px"}}/>
                     <Button content="Pesquisar Produto" icon="" primary/>
+                    <Button content="Catálogo de Remédios" icon="" primary/>
                   </Button.Group>
                   <hr/>
                   <Button.Group float="right" vertical style={{marginTop: "2%", width: "25%"}}>
-                    {this.userIsManager() ? <div><Button content="Criar Wallet" icon="add circle" secondary/>
-                                                 <Button content="Criar Medicamento" icon="add circle" secondary/>
+                    {this.userIsManager() ? <div><Link route="/wallets/createWallet"><a><Button content="Criar Wallet" icon="add circle" secondary/></a></Link>
+                                                 <Link route="/products/createProduct"><a><Button content="Criar Medicamento" icon="add circle" secondary/></a></Link>
                                                  </div> : null}
                     {this.state.funcao === "Productor"? <Button content="Gerar Produto" icon="add circle" secondary/> : null}
                     <Button content="Transferir Produto" icon="share" secondary/>   
                   </Button.Group>
               </div>        
-              : 
-              <div className="ui active dimmer">
-                <div className="ui loader"></div>
-              </div>
-          
-             }
             </Layout>
            
         );
