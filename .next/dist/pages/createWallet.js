@@ -75,7 +75,8 @@ var createWallet = function (_Component) {
             walletAddress: '0x0',
             maxWeight: '',
             funcao: '',
-            errorMessage: ''
+            errorMessage: '',
+            loading: false
         }, _this.onSubmit = function () {
             var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(e) {
                 return _regenerator2.default.wrap(function _callee$(_context) {
@@ -84,26 +85,30 @@ var createWallet = function (_Component) {
                             case 0:
                                 e.preventDefault();
 
-                                _context.prev = 1;
-                                _context.next = 4;
+                                _this.setState({ loading: true, errorMessage: '' });
+                                _context.prev = 2;
+                                _context.next = 5;
                                 return _supplychain2.default.methods.createWallet(_this.state.walletAddress, _this.state.maxWeight, _this.state.funcao).send({ from: _this.state.account });
 
-                            case 4:
-                                _context.next = 9;
+                            case 5:
+                                _context.next = 10;
                                 break;
 
-                            case 6:
-                                _context.prev = 6;
-                                _context.t0 = _context['catch'](1);
+                            case 7:
+                                _context.prev = 7;
+                                _context.t0 = _context['catch'](2);
 
                                 _this.setState({ errorMessage: _context.t0.message });
 
-                            case 9:
+                            case 10:
+                                _this.setState({ loading: false });
+
+                            case 11:
                             case 'end':
                                 return _context.stop();
                         }
                     }
-                }, _callee, _this2, [[1, 6]]);
+                }, _callee, _this2, [[2, 7]]);
             }));
 
             return function (_x) {
@@ -152,33 +157,18 @@ var createWallet = function (_Component) {
             return _react2.default.createElement(_layout2.default, {
                 __source: {
                     fileName: _jsxFileName,
-                    lineNumber: 36
+                    lineNumber: 40
                 }
             }, _react2.default.createElement('h3', {
                 __source: {
                     fileName: _jsxFileName,
-                    lineNumber: 37
+                    lineNumber: 41
                 }
             }, this.state.account, '(manager) adicionando nova wallet'), _react2.default.createElement('form', { className: 'ui form', onSubmit: this.onSubmit, style: { marginTop: "60px" }, error: true, __source: {
                     fileName: _jsxFileName,
-                    lineNumber: 38
+                    lineNumber: 42
                 }
             }, _react2.default.createElement('div', { className: 'field', style: { marginBottom: "40px" }, __source: {
-                    fileName: _jsxFileName,
-                    lineNumber: 39
-                }
-            }, _react2.default.createElement('label', {
-                __source: {
-                    fileName: _jsxFileName,
-                    lineNumber: 40
-                }
-            }, 'Address: '), _react2.default.createElement('input', { type: 'text', onChange: function onChange(e) {
-                    _this3.setState({ walletAddress: e.target.value });
-                }, name: 'address', placeholder: 'Insert Ethereum Wallet Address', __source: {
-                    fileName: _jsxFileName,
-                    lineNumber: 41
-                }
-            })), _react2.default.createElement('div', { className: 'field', style: { marginBottom: "40px" }, __source: {
                     fileName: _jsxFileName,
                     lineNumber: 43
                 }
@@ -187,59 +177,74 @@ var createWallet = function (_Component) {
                     fileName: _jsxFileName,
                     lineNumber: 44
                 }
+            }, 'Address: '), _react2.default.createElement('input', { type: 'text', onChange: function onChange(e) {
+                    _this3.setState({ walletAddress: e.target.value });
+                }, name: 'address', placeholder: 'Insert Ethereum Wallet Address', __source: {
+                    fileName: _jsxFileName,
+                    lineNumber: 45
+                }
+            })), _react2.default.createElement('div', { className: 'field', style: { marginBottom: "40px" }, __source: {
+                    fileName: _jsxFileName,
+                    lineNumber: 47
+                }
+            }, _react2.default.createElement('label', {
+                __source: {
+                    fileName: _jsxFileName,
+                    lineNumber: 48
+                }
             }, ' Max Weight'), _react2.default.createElement('input', { type: 'text', onChange: function onChange(e) {
                     _this3.setState({ maxWeight: e.target.value });
                 }, name: 'id', placeholder: 'ID of medicine on database', __source: {
                     fileName: _jsxFileName,
-                    lineNumber: 45
+                    lineNumber: 49
                 }
             })), _react2.default.createElement('select', { onChange: function onChange(e) {
                     _this3.setState({ funcao: e.target.value });
                 }, className: 'ui dropdown', style: { marginBottom: "40px" }, __source: {
                     fileName: _jsxFileName,
-                    lineNumber: 47
+                    lineNumber: 51
                 }
             }, _react2.default.createElement('option', { value: 'Productor', __source: {
                     fileName: _jsxFileName,
-                    lineNumber: 48
+                    lineNumber: 52
                 }
             }, 'Productor'), _react2.default.createElement('option', { value: 'Stock', __source: {
                     fileName: _jsxFileName,
-                    lineNumber: 49
+                    lineNumber: 53
                 }
             }, 'Stock'), _react2.default.createElement('option', { value: 'Transport', __source: {
                     fileName: _jsxFileName,
-                    lineNumber: 50
+                    lineNumber: 54
                 }
             }, 'Transport'), _react2.default.createElement('option', { value: 'CirurgicCenter', __source: {
                     fileName: _jsxFileName,
-                    lineNumber: 51
+                    lineNumber: 55
                 }
             }, 'Cirurgic Center'), _react2.default.createElement('option', { value: 'Seller', __source: {
                     fileName: _jsxFileName,
-                    lineNumber: 52
+                    lineNumber: 56
                 }
             }, 'Seller'), _react2.default.createElement('option', { value: 'Buyer', __source: {
                     fileName: _jsxFileName,
-                    lineNumber: 53
+                    lineNumber: 57
                 }
             }, 'Buyer')), this.state.errorMessage !== '' ? _react2.default.createElement(_semanticUiReact.Message, { negative: true, __source: {
                     fileName: _jsxFileName,
-                    lineNumber: 56
+                    lineNumber: 60
                 }
             }, _react2.default.createElement(_semanticUiReact.Message.Header, {
                 __source: {
                     fileName: _jsxFileName,
-                    lineNumber: 57
+                    lineNumber: 61
                 }
             }, 'Oops, there was an error!'), _react2.default.createElement('p', {
                 __source: {
                     fileName: _jsxFileName,
-                    lineNumber: 58
+                    lineNumber: 62
                 }
-            }, this.state.errorMessage)) : null, _react2.default.createElement('button', { type: 'submit', className: 'ui positive button', __source: {
+            }, this.state.errorMessage)) : null, _react2.default.createElement(_semanticUiReact.Button, { type: 'submit', className: 'ui positive button', loading: this.state.loading, __source: {
                     fileName: _jsxFileName,
-                    lineNumber: 60
+                    lineNumber: 64
                 }
             }, 'Create a Kind of Medicine for your Supplychain')));
         }
@@ -249,4 +254,4 @@ var createWallet = function (_Component) {
 }(_react.Component);
 
 exports.default = createWallet;
-//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInBhZ2VzL2NyZWF0ZVdhbGxldC5qcyJdLCJuYW1lcyI6WyJSZWFjdCIsIkNvbXBvbmVudCIsIkxheW91dCIsIndlYjMiLCJzdXBwbHljaGFpbiIsIk1lc3NhZ2UiLCJjcmVhdGVXYWxsZXQiLCJzdGF0ZSIsImFjY291bnQiLCJ3YWxsZXRBZGRyZXNzIiwibWF4V2VpZ2h0IiwiZnVuY2FvIiwiZXJyb3JNZXNzYWdlIiwib25TdWJtaXQiLCJlIiwicHJldmVudERlZmF1bHQiLCJtZXRob2RzIiwic2VuZCIsImZyb20iLCJzZXRTdGF0ZSIsIm1lc3NhZ2UiLCJldGgiLCJnZXRBY2NvdW50cyIsImFjY291bnRzIiwibWFyZ2luVG9wIiwibWFyZ2luQm90dG9tIiwidGFyZ2V0IiwidmFsdWUiXSwibWFwcGluZ3MiOiI7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7QUFBQSxBQUFPLEFBQVM7Ozs7QUFDaEIsQUFBTyxBQUFZOzs7O0FBQ25CLEFBQU8sQUFBVTs7OztBQUNqQixBQUFPLEFBQWlCOzs7O0FBQ3hCLEFBQVE7Ozs7Ozs7SSxBQUVhOzs7Ozs7Ozs7Ozs7Ozs7NE4sQUFFbkI7cUJBQVEsQUFDSyxBQUNUOzJCQUZJLEFBRVcsQUFDZjt1QkFISSxBQUdPLEFBQ1g7b0JBSkksQUFJSSxBQUNSOzBCQUxJLEFBS1UsQTtBQUxWLEFBQ0osaUIsQUFPSjtpR0FBVyxpQkFBQSxBQUFNLEdBQU47OEVBQUE7OEJBQUE7eURBQUE7aUNBQ1A7a0NBRE8sQUFDUCxBQUFFOztnREFESztnREFBQTt1Q0FJRCxzQkFBQSxBQUFZLFFBQVosQUFDYSxhQUFhLE1BQUEsQUFBSyxNQUQvQixBQUNxQyxlQUFjLE1BQUEsQUFBSyxNQUR4RCxBQUM4RCxXQUFVLE1BQUEsQUFBSyxNQUQ3RSxBQUNtRixRQURuRixBQUVhLEtBQUssRUFBQyxNQUFNLE1BQUEsQUFBSyxNQU43QixBQUlELEFBRWtCLEFBQWtCOztpQ0FObkM7Z0RBQUE7QUFBQTs7aUNBQUE7Z0RBQUE7Z0VBUUw7O3NDQUFBLEFBQUssU0FBUyxFQUFDLGNBQWMsWUFSeEIsQUFRTCxBQUFjLEFBQW1COztpQ0FSNUI7aUNBQUE7Z0RBQUE7O0FBQUE7eUNBQUE7QTs7Ozs7Ozs7Ozs7Ozs7Ozs7O3VDQWFnQixjQUFBLEFBQUssSSxBQUFMLEFBQVM7O2lDQUExQjtBLHFEQUNBO0EsMENBQVUsU0FBQSxBLEFBQVMsQUFDekI7O3FDQUFBLEFBQUssU0FBUyxFQUFDLFNBQWYsQUFBYzs7Ozs7Ozs7Ozs7Ozs7Ozs7O2lDQUVUO3lCQUNQOzttQ0FDSSxBQUFDOzs4QkFBRDtnQ0FBQSxBQUNBO0FBREE7QUFBQSxhQUFBLGtCQUNBLGNBQUE7OzhCQUFBO2dDQUFBLEFBQUs7QUFBTDtBQUFBLG9CQUFLLEFBQUssTUFBVixBQUFnQixTQURoQixBQUNBLEFBQ0Esc0RBQUEsY0FBQSxVQUFNLFdBQU4sQUFBZ0IsV0FBVSxVQUFVLEtBQXBDLEFBQXlDLFVBQVUsT0FBTyxFQUFDLFdBQTNELEFBQTBELEFBQVksVUFBUyxPQUEvRTs4QkFBQTtnQ0FBQSxBQUNRO0FBRFI7K0JBQ1EsY0FBQSxTQUFLLFdBQUwsQUFBZSxTQUFRLE9BQU8sRUFBQyxjQUEvQixBQUE4QixBQUFlOzhCQUE3QztnQ0FBQSxBQUNJO0FBREo7K0JBQ0ksY0FBQTs7OEJBQUE7Z0NBQUE7QUFBQTtBQUFBLGVBREosQUFDSSxBQUNBLHVEQUFPLE1BQVAsQUFBWSxRQUFPLFVBQVUsa0JBQUEsQUFBQyxHQUFJLEFBQUM7MkJBQUEsQUFBSyxTQUFTLEVBQUMsZUFBZSxFQUFBLEFBQUUsT0FBaEMsQUFBYyxBQUF5QixBQUFRO0FBQWxGLG1CQUFvRixNQUFwRixBQUF5RixXQUFVLGFBQW5HLEFBQStHOzhCQUEvRztnQ0FIWixBQUNRLEFBRUksQUFFSjtBQUZJO2lDQUVKLGNBQUEsU0FBSyxXQUFMLEFBQWUsU0FBUSxPQUFPLEVBQUMsY0FBL0IsQUFBOEIsQUFBZTs4QkFBN0M7Z0NBQUEsQUFDSTtBQURKOytCQUNJLGNBQUE7OzhCQUFBO2dDQUFBO0FBQUE7QUFBQSxlQURKLEFBQ0ksQUFDQSx5REFBTyxNQUFQLEFBQVksUUFBTyxVQUFVLGtCQUFBLEFBQUMsR0FBSSxBQUFDOzJCQUFBLEFBQUssU0FBUyxFQUFDLFdBQVcsRUFBQSxBQUFFLE9BQTVCLEFBQWMsQUFBcUIsQUFBUTtBQUE5RSxtQkFBZ0YsTUFBaEYsQUFBcUYsTUFBSyxhQUExRixBQUFzRzs4QkFBdEc7Z0NBUFosQUFLUSxBQUVJLEFBRUo7QUFGSTtpQ0FFSixjQUFBLFlBQVEsVUFBVSxrQkFBQSxBQUFDLEdBQUksQUFBQzsyQkFBQSxBQUFLLFNBQVMsRUFBQyxRQUFRLEVBQUEsQUFBRSxPQUF6QixBQUFjLEFBQWtCLEFBQVE7QUFBaEUsbUJBQWtFLFdBQWxFLEFBQTRFLGVBQWMsT0FBTyxFQUFDLGNBQWxHLEFBQWlHLEFBQWU7OEJBQWhIO2dDQUFBLEFBQ0k7QUFESjsrQkFDSSxjQUFBLFlBQVEsT0FBUixBQUFjOzhCQUFkO2dDQUFBO0FBQUE7ZUFESixBQUNJLEFBQ0EsOEJBQUEsY0FBQSxZQUFRLE9BQVIsQUFBYzs4QkFBZDtnQ0FBQTtBQUFBO2VBRkosQUFFSSxBQUNBLDBCQUFBLGNBQUEsWUFBUSxPQUFSLEFBQWM7OEJBQWQ7Z0NBQUE7QUFBQTtlQUhKLEFBR0ksQUFDQSw4QkFBQSxjQUFBLFlBQVEsT0FBUixBQUFjOzhCQUFkO2dDQUFBO0FBQUE7ZUFKSixBQUlJLEFBQ0Esb0NBQUEsY0FBQSxZQUFRLE9BQVIsQUFBYzs4QkFBZDtnQ0FBQTtBQUFBO2VBTEosQUFLSSxBQUNBLDJCQUFBLGNBQUEsWUFBUSxPQUFSLEFBQWM7OEJBQWQ7Z0NBQUE7QUFBQTtlQWZaLEFBU1EsQUFNSSxBQUVKLGdCQUFBLEFBQUssTUFBTCxBQUFXLGlCQUFYLEFBQTRCLHFCQUN4QixBQUFDLDBDQUFRLFVBQVQ7OEJBQUE7Z0NBQUEsQUFDSTtBQURKO2FBQUEsa0JBQ0ssY0FBRCx5QkFBQSxBQUFTOzs4QkFBVDtnQ0FBQTtBQUFBO0FBQUEsZUFESixBQUNJLEFBQ0EsOENBQUEsY0FBQTs7OEJBQUE7Z0NBQUEsQUFBSTtBQUFKO0FBQUEsb0JBQUksQUFBSyxNQUhqQixBQUNJLEFBRUksQUFBZSxpQkFwQi9CLEFBcUJ5QixBQUNqQixzQkFBQSxjQUFBLFlBQVEsTUFBUixBQUFhLFVBQVMsV0FBdEIsQUFBZ0M7OEJBQWhDO2dDQUFBO0FBQUE7ZUF6QlosQUFDSSxBQUVBLEFBc0JRLEFBSWI7Ozs7O0FBekR1QyxBOztrQkFBckIsQSIsImZpbGUiOiJjcmVhdGVXYWxsZXQuanM/ZW50cnkiLCJzb3VyY2VSb290IjoiL1VzZXJzL3BlZHJvLmFsdmFyZXovRGVza3RvcC9Qcm9qZXRvRmluYWwifQ==
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInBhZ2VzL2NyZWF0ZVdhbGxldC5qcyJdLCJuYW1lcyI6WyJSZWFjdCIsIkNvbXBvbmVudCIsIkxheW91dCIsIndlYjMiLCJzdXBwbHljaGFpbiIsIk1lc3NhZ2UiLCJCdXR0b24iLCJjcmVhdGVXYWxsZXQiLCJzdGF0ZSIsImFjY291bnQiLCJ3YWxsZXRBZGRyZXNzIiwibWF4V2VpZ2h0IiwiZnVuY2FvIiwiZXJyb3JNZXNzYWdlIiwibG9hZGluZyIsIm9uU3VibWl0IiwiZSIsInByZXZlbnREZWZhdWx0Iiwic2V0U3RhdGUiLCJtZXRob2RzIiwic2VuZCIsImZyb20iLCJtZXNzYWdlIiwiZXRoIiwiZ2V0QWNjb3VudHMiLCJhY2NvdW50cyIsIm1hcmdpblRvcCIsIm1hcmdpbkJvdHRvbSIsInRhcmdldCIsInZhbHVlIl0sIm1hcHBpbmdzIjoiOzs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7O0FBQUEsQUFBTyxBQUFTOzs7O0FBQ2hCLEFBQU8sQUFBWTs7OztBQUNuQixBQUFPLEFBQVU7Ozs7QUFDakIsQUFBTyxBQUFpQjs7OztBQUN4QixBQUFRLEFBQ1IsQUFBUTs7Ozs7OztJQUVhLEE7Ozs7Ozs7Ozs7Ozs7Ozs0TkFFbkIsQTtxQkFBUSxBQUNLLEFBQ1Q7MkJBRkksQUFFVyxBQUNmO3VCQUhJLEFBR08sQUFDWDtvQkFKSSxBQUlJLEFBQ1I7MEJBTEksQUFLVSxBQUNkO3FCQU5JLEEsQUFNSztBQU5MLEFBQ0osaUIsQUFRSjtpR0FBVyxpQkFBQSxBQUFNLEdBQU47OEVBQUE7OEJBQUE7eURBQUE7aUNBQ1A7a0NBQUEsQUFBRSxBQUVGOztzQ0FBQSxBQUFLLFNBQVMsRUFBQyxTQUFELEFBQVUsTUFBTSxjQUh2QixBQUdQLEFBQWMsQUFBOEI7Z0RBSHJDO2dEQUFBO3VDQUtELHNCQUFBLEFBQVksUUFBWixBQUNhLGFBQWEsTUFBQSxBQUFLLE1BRC9CLEFBQ3FDLGVBQWMsTUFBQSxBQUFLLE1BRHhELEFBQzhELFdBQVUsTUFBQSxBQUFLLE1BRDdFLEFBQ21GLFFBRG5GLEFBRWEsS0FBSyxFQUFDLE1BQU0sTUFBQSxBQUFLLE1BUDdCLEFBS0QsQUFFa0IsQUFBa0I7O2lDQVBuQztnREFBQTtBQUFBOztpQ0FBQTtnREFBQTtnRUFTTDs7c0NBQUEsQUFBSyxTQUFTLEVBQUMsY0FBYyxZQVR4QixBQVNMLEFBQWMsQUFBbUI7O2lDQUVuQztzQ0FBQSxBQUFLLFNBQVMsRUFBQyxTQVhSLEFBV1AsQUFBYyxBQUFVOztpQ0FYakI7aUNBQUE7Z0RBQUE7O0FBQUE7eUNBQUE7QTs7Ozs7Ozs7Ozs7Ozs7Ozs7O3VDQWVnQixjQUFBLEFBQUssSUFBTCxBLEFBQVM7O2lDQUExQjtBLHFEQUNBO0EsMENBQVUsU0FBQSxBLEFBQVMsQUFDekI7O3FDQUFBLEFBQUssU0FBUyxFQUFDLFNBQWYsQUFBYzs7Ozs7Ozs7Ozs7Ozs7Ozs7O2lDQUVUO3lCQUNQOzttQ0FDSSxBQUFDOzs4QkFBRDtnQ0FBQSxBQUNBO0FBREE7QUFBQSxhQUFBLGtCQUNBLGNBQUE7OzhCQUFBO2dDQUFBLEFBQUs7QUFBTDtBQUFBLG9CQUFLLEFBQUssTUFBVixBQUFnQixTQURoQixBQUNBLEFBQ0Esc0RBQUEsY0FBQSxVQUFNLFdBQU4sQUFBZ0IsV0FBVSxVQUFVLEtBQXBDLEFBQXlDLFVBQVUsT0FBTyxFQUFDLFdBQTNELEFBQTBELEFBQVksVUFBUyxPQUEvRTs4QkFBQTtnQ0FBQSxBQUNRO0FBRFI7K0JBQ1EsY0FBQSxTQUFLLFdBQUwsQUFBZSxTQUFRLE9BQU8sRUFBQyxjQUEvQixBQUE4QixBQUFlOzhCQUE3QztnQ0FBQSxBQUNJO0FBREo7K0JBQ0ksY0FBQTs7OEJBQUE7Z0NBQUE7QUFBQTtBQUFBLGVBREosQUFDSSxBQUNBLHVEQUFPLE1BQVAsQUFBWSxRQUFPLFVBQVUsa0JBQUEsQUFBQyxHQUFJLEFBQUM7MkJBQUEsQUFBSyxTQUFTLEVBQUMsZUFBZSxFQUFBLEFBQUUsT0FBaEMsQUFBYyxBQUF5QixBQUFRO0FBQWxGLG1CQUFvRixNQUFwRixBQUF5RixXQUFVLGFBQW5HLEFBQStHOzhCQUEvRztnQ0FIWixBQUNRLEFBRUksQUFFSjtBQUZJO2lDQUVKLGNBQUEsU0FBSyxXQUFMLEFBQWUsU0FBUSxPQUFPLEVBQUMsY0FBL0IsQUFBOEIsQUFBZTs4QkFBN0M7Z0NBQUEsQUFDSTtBQURKOytCQUNJLGNBQUE7OzhCQUFBO2dDQUFBO0FBQUE7QUFBQSxlQURKLEFBQ0ksQUFDQSx5REFBTyxNQUFQLEFBQVksUUFBTyxVQUFVLGtCQUFBLEFBQUMsR0FBSSxBQUFDOzJCQUFBLEFBQUssU0FBUyxFQUFDLFdBQVcsRUFBQSxBQUFFLE9BQTVCLEFBQWMsQUFBcUIsQUFBUTtBQUE5RSxtQkFBZ0YsTUFBaEYsQUFBcUYsTUFBSyxhQUExRixBQUFzRzs4QkFBdEc7Z0NBUFosQUFLUSxBQUVJLEFBRUo7QUFGSTtpQ0FFSixjQUFBLFlBQVEsVUFBVSxrQkFBQSxBQUFDLEdBQUksQUFBQzsyQkFBQSxBQUFLLFNBQVMsRUFBQyxRQUFRLEVBQUEsQUFBRSxPQUF6QixBQUFjLEFBQWtCLEFBQVE7QUFBaEUsbUJBQWtFLFdBQWxFLEFBQTRFLGVBQWMsT0FBTyxFQUFDLGNBQWxHLEFBQWlHLEFBQWU7OEJBQWhIO2dDQUFBLEFBQ0k7QUFESjsrQkFDSSxjQUFBLFlBQVEsT0FBUixBQUFjOzhCQUFkO2dDQUFBO0FBQUE7ZUFESixBQUNJLEFBQ0EsOEJBQUEsY0FBQSxZQUFRLE9BQVIsQUFBYzs4QkFBZDtnQ0FBQTtBQUFBO2VBRkosQUFFSSxBQUNBLDBCQUFBLGNBQUEsWUFBUSxPQUFSLEFBQWM7OEJBQWQ7Z0NBQUE7QUFBQTtlQUhKLEFBR0ksQUFDQSw4QkFBQSxjQUFBLFlBQVEsT0FBUixBQUFjOzhCQUFkO2dDQUFBO0FBQUE7ZUFKSixBQUlJLEFBQ0Esb0NBQUEsY0FBQSxZQUFRLE9BQVIsQUFBYzs4QkFBZDtnQ0FBQTtBQUFBO2VBTEosQUFLSSxBQUNBLDJCQUFBLGNBQUEsWUFBUSxPQUFSLEFBQWM7OEJBQWQ7Z0NBQUE7QUFBQTtlQWZaLEFBU1EsQUFNSSxBQUVKLGdCQUFBLEFBQUssTUFBTCxBQUFXLGlCQUFYLEFBQTRCLHFCQUN4QixBQUFDLDBDQUFRLFVBQVQ7OEJBQUE7Z0NBQUEsQUFDSTtBQURKO2FBQUEsa0JBQ0ssY0FBRCx5QkFBQSxBQUFTOzs4QkFBVDtnQ0FBQTtBQUFBO0FBQUEsZUFESixBQUNJLEFBQ0EsOENBQUEsY0FBQTs7OEJBQUE7Z0NBQUEsQUFBSTtBQUFKO0FBQUEsb0JBQUksQUFBSyxNQUhqQixBQUNJLEFBRUksQUFBZSxpQkFwQi9CLEFBcUJ5QixBQUNqQixzQkFBQSxBQUFDLHlDQUFPLE1BQVIsQUFBYSxVQUFTLFdBQXRCLEFBQWdDLHNCQUFxQixTQUFTLEtBQUEsQUFBSyxNQUFuRSxBQUF5RTs4QkFBekU7Z0NBQUE7QUFBQTtlQXpCWixBQUNJLEFBRUEsQUFzQlEsQUFJYjs7Ozs7QUE1RHVDLEE7O2tCQUFyQixBIiwiZmlsZSI6ImNyZWF0ZVdhbGxldC5qcz9lbnRyeSIsInNvdXJjZVJvb3QiOiIvVXNlcnMvcGVkcm8uYWx2YXJlei9EZXNrdG9wL1Byb2pldG9GaW5hbCJ9

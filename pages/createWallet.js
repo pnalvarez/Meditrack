@@ -3,6 +3,7 @@ import Layout from '../components/layout'
 import web3 from '../ethereum/web3'
 import supplychain from '../ethereum/supplychain'
 import {Message} from 'semantic-ui-react'
+import {Button} from 'semantic-ui-react'
 
 export default class createWallet extends Component {
 
@@ -11,12 +12,14 @@ export default class createWallet extends Component {
       walletAddress: '0x0',
       maxWeight: '',
       funcao: '',
-      errorMessage: ''
+      errorMessage: '',
+      loading: false
   }
 
   onSubmit = async e =>{
       e.preventDefault()
-
+    
+      this.setState({loading: true, errorMessage: ''})
       try{
       await supplychain.methods
                         .createWallet(this.state.walletAddress,this.state.maxWeight,this.state.funcao)
@@ -24,6 +27,7 @@ export default class createWallet extends Component {
       }catch(err){
         this.setState({errorMessage: err.message})
       }
+      this.setState({loading: false})
   }
 
   async componentDidMount(){
@@ -57,7 +61,7 @@ export default class createWallet extends Component {
                         <Message.Header>Oops, there was an error!</Message.Header>
                         <p>{this.state.errorMessage}</p>
                     </Message> : null}
-                <button type="submit" className="ui positive button">Create a Kind of Medicine for your Supplychain</button>
+                <Button type="submit" className="ui positive button" loading={this.state.loading}>Create a Kind of Medicine for your Supplychain</Button>
         </form>
         </Layout>
     )
