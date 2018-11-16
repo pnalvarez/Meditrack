@@ -42,7 +42,6 @@ export default class createProduct extends Component {
   }
 
    render() {
-
     return (
         <Layout>
             <h1 style={{color: "darkcyan"}}>Create Product for Manager({this.state.account})</h1>

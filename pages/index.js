@@ -16,7 +16,8 @@ class SupplychainIndex extends Component{
         sinisters: '',
         balance: '',
         receives: '',
-        medicines: []
+        medicines: [],
+        productTrace: ''
     }
 
     userIsManager(){
@@ -38,8 +39,11 @@ class SupplychainIndex extends Component{
         const capacity = await supplychain.methods.getWalletWeight(accounts[0]).call()
         const balance = await supplychain.methods.getBalanceof(accounts[0]).call()
         const currentWeight = await supplychain.methods.getWalletCurrentWeight(accounts[0]).call()
+        const productTrace = await supplychain.methods.getProductCreationTime("uuid0").call()
+        const date = new Date(productTrace*1000)
+        console.log("product trace",date)
         // const medicines = await supplychain.methods.medicineNames().call()
-        this.setState({account: accounts[0], funcao: funcao, capacity: capacity, balance: balance, currentWeight: currentWeight})
+        this.setState({account: accounts[0], funcao: funcao, capacity: capacity, balance: balance, currentWeight: currentWeight, productTrace: productTrace})
     }
 
     render(){
@@ -60,20 +64,20 @@ class SupplychainIndex extends Component{
                     <Button content="Depósito"  icon="play" primary style={{border: "1px solid gray", marginBotton: "3px"}}/>
                     <Button content="Recibos" icon="envelope" primary style={{border: "1px solid gray", marginBotton: "3px"}}/>
                     <Button content="Sinistros" icon="bolt" primary style={{border: "1px solid gray", marginBotton: "3px"}}/>
-                    {this.props.manager === this.state.account ? <Button content="Wallets" icon="address card" primary style={{border: "1px solid gray", marginBotton: "3px"}}/> : null}
+                    {this.props.manager === this.state.account ? <Link route="/wallets/walletsView"><a><Button content="Pesquisar Wallet" icon="address card" primary style={{border: "1px solid gray", marginBotton: "3px"}}/></a></Link> : null}
                     <Button content="Alertas" icon="exclamation triangle" primary style={{border: "1px solid gray", marginBotton: "3px"}}/>
                     <Button content="Pesquisar Produto" icon="" primary/>
-                    <Button content="Catálogo de Remédios" icon="" primary/>
+                    <Link route="/products/medicineList"><a><Button content="Catálogo de Remédios" icon="" primary/></a></Link>
                   </Button.Group>
                   <hr/>
                   <Button.Group float="right" vertical style={{marginTop: "2%", width: "25%"}}>
                     {this.userIsManager() ? <div><Link route="/wallets/createWallet"><a><Button content="Criar Wallet" icon="add circle" secondary/></a></Link>
                                                  <Link route="/products/createProduct"><a><Button content="Criar Medicamento" icon="add circle" secondary/></a></Link>
                                                  </div> : null}
-                    {this.state.funcao === "Productor"? <Button content="Gerar Produto" icon="add circle" secondary/> : null}
+                    {this.state.funcao === "Productor"? <Link route="/products/GenerateProduct"><a><Button content="Gerar Produto" icon="add circle" secondary/></a></Link> : null}
                     <Button content="Transferir Produto" icon="share" secondary/>   
                   </Button.Group>
-              </div>        
+              </div>    
             </Layout>
            
         );

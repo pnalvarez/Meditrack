@@ -12,7 +12,7 @@ export default class createWallet extends Component {
       account: '0x0',
       walletAddress: '0x0',
       maxWeight: '',
-      funcao: '',
+      funcao: 'Productor',
       errorMessage: '',
       loading: false
   }

@@ -606,6 +606,9 @@ contract Supplychain{
    function getReceiveTo(uint index, address adr)public view returns(address){
      return receives[adr][index].to;
    }
+   function getReceivesQtd(address adr)public view returns(uint){
+       return receives[adr].length;
+   }
 
    //Funcoes de acesso referentes a um sinistros
    function getSinisterTitle(uint index, address adr)public view returns(string){
@@ -623,6 +626,9 @@ contract Supplychain{
    function getSinisterTimestamp(uint index, address adr)public view returns(uint){
         return sinisters[adr][index].timestamp;
    }
+   function getSinistersQtd(address adr)public view returns(uint){
+       return sinisters[adr].length;
+   }
    //balance
    function getBalanceof(address adr)public view returns(uint){
      return adr.balance;
@@ -638,7 +644,14 @@ contract Supplychain{
    //TEST END
    //TEST END
    //TEST END
+   function getMedicineNamesTotal()public view returns(uint){
+    return medicineNames.length;
 }
+  function getAllProductsTotal()public view returns(uint){
+    return allProducts.length;
+}
+}
+
 
 /*Contratos que podem ser quebrados:
 
