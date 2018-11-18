@@ -24,6 +24,7 @@ contract Supplychain{
 
         mapping(string => uint) medicines;//tipos de remedios que a carteira possui //DÁ PRA TIRAR DA BLOCKCHAIN
         mapping(string => bool) products;//produtos individuais que a carteira possui
+        uint creationTime;
         uint maxWeight; //DÁ PRA TIRAR DA BLOCKCHAIN
         uint currentWeight; //DÁ PRA TIRAR DA BLOCKCHAIN
         Function func; //funcao dessa carteira na cadeia supplychain
@@ -89,7 +90,7 @@ contract Supplychain{
     //verifica se uma carteira participa ou nao da cadeia
     mapping(address => bool)private participates;
     //Time when contract was deployed
-    uint begin;
+    uint public begin;
     //lista de recibos obtidos por um endereço
     mapping(address => Receive[]) receives;
     //lista de sinistros verificados por um endereço
@@ -212,7 +213,7 @@ contract Supplychain{
     constructor()public{
         manager = msg.sender;
         begin = now;
-        wallets[msg.sender] = Wallet(100, 0, Function.Productor);
+        wallets[msg.sender] = Wallet(now, 100, 0, Function.Productor);
         participates[msg.sender] = true;
 
         stringToFunction["Nothing"] = Function.Nothing;
@@ -259,7 +260,7 @@ contract Supplychain{
    function transferOperation(address from, string uuid, address to)private
    returns(Receive){
 
-       uint timestamp = now - begin;
+       uint timestamp = now;
        string memory id = products[uuid].id;
 
        incrementPath(uuid, to);
@@ -334,7 +335,7 @@ contract Supplychain{
           Product storage product = products[allProducts[i]];
 
            if(product.isValid){
-               uint timestamp = now - product.creationTime;
+               uint timestamp = now - product.creationTime; //pega o quanto tem de tempo desde que o produto foi criado
 
                if(timestamp >= medicines[product.id].validity){
                     product.isValid = false;
@@ -347,7 +348,7 @@ contract Supplychain{
   /*salva um novo usuário no caminho percorrido pelo produto uuid*/ //Wallet
   function incrementPath(string uuid, address adr)private productExists(uuid){
 
-       uint time = now - begin;
+       uint time = now;
 
        products[uuid].path.push(adr);
        products[uuid].timestamps.push(time);
@@ -372,7 +373,7 @@ contract Supplychain{
         delete allProducts[ui];
       }
 
-      uint timestamp = now - begin;
+      uint timestamp = now;
 
       emit DiscardedProduct(uuid, owner, timestamp);
   }
@@ -402,7 +403,7 @@ contract Supplychain{
    function createWallet(address adr, uint _maxWeight, string f)public onlyManager
     inexistantWallet(adr){
 
-       wallets[adr] = Wallet(_maxWeight, 0, stringToFunction[f]);
+       wallets[adr] = Wallet(now, _maxWeight, 0, stringToFunction[f]);
        participates[adr] = true;
    }
 
@@ -413,7 +414,7 @@ contract Supplychain{
        require(!productExist[uuid], "product already generated");
 
 
-       uint time = now - begin;
+       uint time = now;
        wallets[msg.sender].medicines[id] += 1;
        productExist[uuid] = true;
        wallets[msg.sender].products[uuid] = true;
@@ -459,7 +460,7 @@ contract Supplychain{
    function notifySinister(string _title, string _description, string _product)public checkTime
    productExists(_product) productOwner(msg.sender, _product) returns(Sinister){
 
-       uint _timestamp = now - begin;
+       uint _timestamp = now;
        Sinister memory sinister = Sinister(_title,_description,_product,msg.sender,_timestamp);
        sinisters[msg.sender].push(sinister);
        discardProduct(_product);
@@ -492,7 +493,7 @@ contract Supplychain{
    /*funcao que retorna onde estava um produto uuid dado um horário específico*/
    function trackProduct(string uuid, uint timestamp)public view
     productExists(uuid) returns(address){
-      uint currentTime = now - begin;
+      uint currentTime = now;
 
       require(timestamp <= currentTime, "Please enter a valid time");
 
@@ -658,3 +659,7 @@ contract Supplychain{
       contrato Wallet
       c
 */
+
+//OBS: Estava tratando o timestamp do contrato, dos recibos e das criações de produtos
+//apenas como segundos decorridos desde a criação do contrato e eu deveria fazer isso 
+//considerando todos os segundos obtidos desde 1970
