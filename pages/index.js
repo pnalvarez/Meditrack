@@ -26,10 +26,13 @@ class SupplychainIndex extends Component{
 
     static async getInitialProps(){
 
-        const manager = await supplychain.methods.manager().call();
+        const manager = await supplychain.methods.manager().call()
+        const timestamp = await supplychain.methods.begin().call()
+        const date = new Date(timestamp*1000)
+        const begin = date.toLocaleDateString("pt-BR")
         const func = await supplychain.methods.getWalletFunction(manager).call();
         const medicine = await supplychain.methods.getWalletMedicineQtd(manager, "id").call();
-        return {manager, func, medicine};
+        return {manager, func, medicine, begin};
     }
 
     async componentDidMount(){
@@ -55,6 +58,7 @@ class SupplychainIndex extends Component{
                   <h1>Menu Principal</h1>
                   {this.props.manager === this.state.account ? <h2 style={{color: "blue"}}>Manager</h2> : null}
                   <h4 style = {{color: "gray", marginTop: "0px"}}>Bem vindo, usuário da carteira {this.state.account}</h4>
+                  <h5>A cadeia de suprimentos foi criada no dia {this.props.begin}</h5>
                   <InfoCards address = {this.state.account}
                              funcao = {this.state.funcao}
                              capacity = {this.state.capacity}
