@@ -7,6 +7,7 @@ export default class walletDisplay extends Component {
  static propTypes={
       address: PropTypes.string.isRequired,
       maxWeight: PropTypes.string.isRequired,
+      creationTime: PropTypes.string.isRequired,
       f: PropTypes.string.isRequired,
       medicinesTotal: PropTypes.string.isRequired,
       medicines: PropTypes.array.isRequired,
@@ -57,7 +58,12 @@ export default class walletDisplay extends Component {
             </div>
             <div className="content" style={{marginBottom: "30px"}}>
                 <div className="summary">
-                    <a style={{fontSize: "20px"}}>Function: </a> {this.props.f}
+                    <a style={{fontSize: "20px"}}>Creation Time: </a> {this.props.creationTime}
+                </div>
+            </div>
+            <div className="content" style={{marginBottom: "30px"}}>
+                <div className="summary">
+                    <a style={{fontSize: "20px"}}>Fuction: </a> {this.props.f}
                 </div>
             </div>
             <div className="content" style={{marginBottom: "30px"}}>

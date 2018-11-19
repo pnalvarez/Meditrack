@@ -18,6 +18,7 @@ export default class Layout extends Component{
         <Container>
             <Head>
                 <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.3/semantic.min.css"></link>
+                
             </Head>
             <div style={{marginTop: "20px"}}>
                 <Header/>

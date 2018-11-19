@@ -29,7 +29,7 @@ class SupplychainIndex extends Component{
         const manager = await supplychain.methods.manager().call()
         const timestamp = await supplychain.methods.begin().call()
         const date = new Date(timestamp*1000)
-        const begin = date.toLocaleDateString("pt-BR")
+        const begin = date
         const func = await supplychain.methods.getWalletFunction(manager).call();
         const medicine = await supplychain.methods.getWalletMedicineQtd(manager, "id").call();
         return {manager, func, medicine, begin};
@@ -70,7 +70,7 @@ class SupplychainIndex extends Component{
                     <Button content="Sinistros" icon="bolt" primary style={{border: "1px solid gray", marginBotton: "3px"}}/>
                     {this.props.manager === this.state.account ? <Link route="/wallets/walletsView"><a><Button content="Pesquisar Wallet" icon="address card" primary style={{border: "1px solid gray", marginBotton: "3px"}}/></a></Link> : null}
                     <Button content="Alertas" icon="exclamation triangle" primary style={{border: "1px solid gray", marginBotton: "3px"}}/>
-                    <Button content="Pesquisar Produto" icon="" primary/>
+                    <Link route="/products/trackProduct"><a><Button content="Rastrear Produto" icon="" primary/></a></Link>
                     <Link route="/products/medicineList"><a><Button content="Catálogo de Remédios" icon="" primary/></a></Link>
                   </Button.Group>
                   <hr/>

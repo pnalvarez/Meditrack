@@ -25,10 +25,11 @@ export default class createProduct extends Component {
       this.setState({loading: true, errorMessage: ''})
       try{
       await supplychain.methods
-      .medicineCreate(this.state.id,this.state.name,this.state.description,this.state.weight,this.state.value,this.state.validity)
+      .medicineCreate(this.state.id,this.state.name,this.state.description,this.state.weight,this.state.value,this.state.validity*1000*86400)
       .send({
           from: this.state.account
       })
+    
       Router.pushRoute('/')
     }catch(err){
         this.setState({errorMessage: err.message})

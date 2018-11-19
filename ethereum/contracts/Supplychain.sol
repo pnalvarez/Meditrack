@@ -390,8 +390,8 @@ contract Supplychain{
    function medicineCreate(string id, string _name, string _description,uint _weigth, uint _value, uint _validity)
    public onlyManager checkTime{
        require(!medicines[id].initialized, "Medicine already exists");
-
-       medicines[id] = Medicine(_name, _description,true, _weigth, _value, _validity);
+       
+       medicines[id] = Medicine(_name, _description,true, _weigth, _value, _validity hours);
        medicineNames.push(id);
        wallets[manager].medicines[id] = 0;
 
@@ -571,6 +571,9 @@ contract Supplychain{
 
    function walletHasProduct(address adr, string uuid)public view returns(bool){
       return wallets[adr].products[uuid];
+   }
+   function getWalletCreationTime(address adr)public view returns(uint){
+       return wallets[adr].creationTime;
    }
 
    //Funcoes de acesso referentes a um Product

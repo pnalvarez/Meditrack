@@ -27,7 +27,7 @@ export default class medicineList extends Component {
               description: await supplychain.methods.getMedicineDescription(id).call(),
               weight: await supplychain.methods.getMedicineWeight(id).call(),
               value: await supplychain.methods.getMedicineValue(id).call(),
-              validity: await supplychain.methods.getMedicineValidity(id).call()
+              validity: await supplychain.methods.getMedicineValidity(id).call() / (86400000) + ' dias'
          })
       }
       return {medicinesTotal, medicines}
