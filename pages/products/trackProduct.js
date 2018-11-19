@@ -36,6 +36,7 @@ export default class trackProduct extends Component {
       e.preventDefault()
 
       if(this.state.uuid2 !== '' && this.state.dateString !== 'Nan'){
+       this.setState({errorMessage2: ''})
        const dateString = this.state.dateString
        console.log("date string", Date.parse(dateString))
        const date = Date.parse(dateString) / 1000

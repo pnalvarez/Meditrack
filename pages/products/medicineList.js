@@ -25,7 +25,6 @@ export default class medicineList extends Component {
               id: id,
               name: await supplychain.methods.getMedicineName(id).call(),
               description: await supplychain.methods.getMedicineDescription(id).call(),
-              weight: await supplychain.methods.getMedicineWeight(id).call(),
               value: await supplychain.methods.getMedicineValue(id).call(),
               validity: await supplychain.methods.getMedicineValidity(id).call() / (86400000) + ' dias'
          })
@@ -39,7 +38,7 @@ export default class medicineList extends Component {
       return(
         this.props.medicines.map((medicine=>{
             return(
-              <MedicineRow key={medicine.key} id={medicine.id} name={medicine.name} description={medicine.description} value={medicine.value} weight={medicine.weight} validity={medicine.validity}/>
+              <MedicineRow key={medicine.key} id={medicine.id} name={medicine.name} description={medicine.description} value={medicine.value} validity={medicine.validity}/>
             )
         }))
       )
@@ -56,7 +55,6 @@ export default class medicineList extends Component {
                 <HeaderCell style={{border: "1px solid gray", backgroundColor: "darkcyan"}}>ID</HeaderCell>
                 <HeaderCell style={{border: "1px solid gray", backgroundColor: "gold"}}>Name</HeaderCell>
                 <HeaderCell style={{border: "1px solid gray", backgroundColor: "darkcyan"}}>Description</HeaderCell>
-                <HeaderCell style={{border: "1px solid gray", backgroundColor: "gold"}}>Weight</HeaderCell>
                 <HeaderCell style={{border: "1px solid gray", backgroundColor: "darkcyan"}}>Value</HeaderCell>
                 <HeaderCell style={{border: "1px solid gray", backgroundColor: "gold"}}>Validity</HeaderCell>
               </Row>

@@ -20,26 +20,6 @@ export default class InfoCards extends Component {
         <div className="card">
             <div className="content">
                 <div className="header">
-                    Capacity
-                </div>
-                <div className="description">
-                    {this.props.capacity}
-                </div>
-            </div>
-        </div>
-        <div className="card">
-            <div className="content">
-                <div className="header">
-                    Peso Atual
-                </div>
-                <div className="description">
-                    {this.props.currentWeight}
-                </div>
-            </div>
-        </div>
-        <div className="card">
-            <div className="content">
-                <div className="header">
                    Seu saldo
                 </div>
                 <div className="description">

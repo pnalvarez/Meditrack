@@ -11,7 +11,6 @@ export default class createWallet extends Component {
   state = {
       account: '0x0',
       walletAddress: '0x0',
-      maxWeight: '',
       funcao: 'Productor',
       errorMessage: '',
       loading: false
@@ -23,7 +22,7 @@ export default class createWallet extends Component {
       this.setState({loading: true, errorMessage: ''})
       try{
       await supplychain.methods
-                        .createWallet(this.state.walletAddress,this.state.maxWeight,this.state.funcao)
+                        .createWallet(this.state.walletAddress,this.state.funcao)
                         .send({from: this.state.account})
       Router.pushRoute('/')
       }catch(err){
@@ -46,10 +45,6 @@ export default class createWallet extends Component {
                 <div className="field" style={{marginBottom: "40px"}}>
                     <label>Address: </label>
                     <input type="text" onChange={(e)=>{this.setState({walletAddress: e.target.value})}} name="address" placeholder="Insert Ethereum Wallet Address"></input>
-                </div>
-                <div className="field" style={{marginBottom: "40px"}}>
-                    <label> Max Weight</label>
-                    <input type="text" onChange={(e)=>{this.setState({maxWeight: e.target.value})}} name="id" placeholder="ID of medicine on database"></input>
                 </div>
                 <select onChange={(e)=>{this.setState({funcao: e.target.value})}} className="ui dropdown" style={{marginBottom: "40px"}}>
                     <option value="Productor">Productor</option>

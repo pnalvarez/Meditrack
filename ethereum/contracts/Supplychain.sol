@@ -25,8 +25,6 @@ contract Supplychain{
         mapping(string => uint) medicines;//tipos de remedios que a carteira possui //DÁ PRA TIRAR DA BLOCKCHAIN
         mapping(string => bool) products;//produtos individuais que a carteira possui
         uint creationTime;
-        uint maxWeight; //DÁ PRA TIRAR DA BLOCKCHAIN
-        uint currentWeight; //DÁ PRA TIRAR DA BLOCKCHAIN
         Function func; //funcao dessa carteira na cadeia supplychain
     }
    //representa um tipo de medicamento
@@ -35,7 +33,6 @@ contract Supplychain{
         string name; 
         string description;
         bool initialized;
-        uint weigth; //DÁ PRA TIRAR DA BLOCKCHAIN
         uint value; //preço
         uint validity;
         /* string[] components; */
@@ -173,16 +170,6 @@ contract Supplychain{
         _;
     }
 
-    modifier hasCapacityFor(address adr, string id){
-
-      uint maxWeight = wallets[adr].maxWeight;
-      uint currentWeight = wallets[adr].currentWeight;
-      uint weigth = medicines[id].weigth;
-
-      require(currentWeight + weigth <= maxWeight, "It exceeds capacity");
-      _;
-    }
-
     modifier inexistantWallet(address adr){
       require(!participates[adr], "This wallet has already been created");
       _;
@@ -213,7 +200,7 @@ contract Supplychain{
     constructor()public{
         manager = msg.sender;
         begin = now;
-        wallets[msg.sender] = Wallet(now, 100, 0, Function.Productor);
+        wallets[msg.sender] = Wallet(now, Function.Productor);
         participates[msg.sender] = true;
 
         stringToFunction["Nothing"] = Function.Nothing;
@@ -267,13 +254,11 @@ contract Supplychain{
 
        wallets[from].products[uuid] = false;
        wallets[from].medicines[id] -= 1;
-       wallets[from].currentWeight -= medicines[products[uuid].id].weigth;
 
        products[uuid].owner = to;
 
        wallets[to].products[uuid] = true;
        wallets[to].medicines[id] += 1;
-       wallets[to].currentWeight += medicines[products[uuid].id].weigth;
 
        Receive memory receive = Receive(uuid, id, timestamp, from, to);
 
@@ -387,11 +372,11 @@ contract Supplychain{
    //TRANSACTIONS
    //TRANSACTIONS
    /*Funcao que apenas cria um tipo de medicamentos para ficar d=*/
-   function medicineCreate(string id, string _name, string _description,uint _weigth, uint _value, uint _validity)
+   function medicineCreate(string id, string _name, string _description, uint _value, uint _validity)
    public onlyManager checkTime{
        require(!medicines[id].initialized, "Medicine already exists");
-       
-       medicines[id] = Medicine(_name, _description,true, _weigth, _value, _validity hours);
+
+       medicines[id] = Medicine(_name, _description,true, _value, _validity);
        medicineNames.push(id);
        wallets[manager].medicines[id] = 0;
 
@@ -400,16 +385,16 @@ contract Supplychain{
    }
 
    /*Função que cria uma carteira para um participante*/
-   function createWallet(address adr, uint _maxWeight, string f)public onlyManager
+   function createWallet(address adr,string f)public onlyManager
     inexistantWallet(adr){
 
-       wallets[adr] = Wallet(now, _maxWeight, 0, stringToFunction[f]);
+       wallets[adr] = Wallet(now,stringToFunction[f]);
        participates[adr] = true;
    }
 
    /*Funcao que de fato cria um medicamento com um identificador unico naquela categoria de medicamentos identificada por id*/
    function medicineGenerate(string uuid, string id)public only(Function.Productor)
-   hasCapacityFor(msg.sender, id) checkTime{
+   checkTime{
        require(medicines[id].initialized, "medicine does not exist");
        require(!productExist[uuid], "product already generated");
 
@@ -522,9 +507,6 @@ contract Supplychain{
    function getMedicineDescription(string id)public view returns(string){
      return medicines[id].description;
    }
-   function getMedicineWeight(string id)public view returns(uint){
-     return medicines[id].weigth;
-   }
    function getMedicineValue(string id)public view returns(uint){
      return medicines[id].value;
    }
@@ -561,14 +543,6 @@ contract Supplychain{
        return "Buyer";
      }
    }
-//47
-   function getWalletWeight(address adr) public view returns(uint){
-      return wallets[adr].maxWeight;
-   }
-   function getWalletCurrentWeight(address adr)public view returns(uint){
-      return wallets[adr].currentWeight;
-   }
-
    function walletHasProduct(address adr, string uuid)public view returns(bool){
       return wallets[adr].products[uuid];
    }

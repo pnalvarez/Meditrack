@@ -13,7 +13,6 @@ export default class createProduct extends Component {
       id: '',
       name: '',
       description: '',
-      weight: '',
       value: '',
       validity: '',
       errorMessage: '',
@@ -25,7 +24,7 @@ export default class createProduct extends Component {
       this.setState({loading: true, errorMessage: ''})
       try{
       await supplychain.methods
-      .medicineCreate(this.state.id,this.state.name,this.state.description,this.state.weight,this.state.value,this.state.validity*1000*86400)
+      .medicineCreate(this.state.id,this.state.name,this.state.description,this.state.value,this.state.validity*1000*86400)
       .send({
           from: this.state.account
       })
@@ -59,10 +58,6 @@ export default class createProduct extends Component {
                          <label>Description</label>
                             <input type="text" onChange={(e)=>{this.setState({description: e.target.value})}} name="description" placeholder="Description"></input>
                     </div>
-                <div className="field" style={{marginTop: "20px"}}>
-                    <label>Weight</label>
-                    <input type="text" onChange={(e)=>{this.setState({weight: e.target.value})}} name="weight" placeholder="Weight"></input>
-                </div>
                 <div className="field" style={{marginTop: "20px"}}>
                     <label>Value</label>
                     <input type="text" onChange={(e)=>{this.setState({value: e.target.value})}} name="value" placeholder="Value"></input>

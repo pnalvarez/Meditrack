@@ -3,7 +3,7 @@ import Supplychain from './build/Supplychain.json';
 
 const instance = new web3.eth.Contract(
     JSON.parse(Supplychain.interface),
-    '0xAc6dd0d8dfC413F19DebC0062Fa6C80f9C3748be'
+    '0x795DB23715561e348A1ad431b2D66C34480813D4'
 );
 
 export default instance; 

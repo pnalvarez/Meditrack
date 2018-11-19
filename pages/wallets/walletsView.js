@@ -11,8 +11,6 @@ export default class walletsView extends Component {
       account: '0x0',
       walletAdress: '0x0',
       loading: false,
-      maxWeight: '',
-      currentWeight: '',
       creationTime: '',
       f: '',
       medicinesTotal: '0',
@@ -23,13 +21,11 @@ export default class walletsView extends Component {
     e.preventDefault()
 
     const walletAdress = this.state.walletAdress
-    const maxWeight = await supplychain.methods.getWalletWeight(walletAdress).call()
-    const currentWeight = await supplychain.methods.getWalletCurrentWeight(walletAdress).call()
     const creationTime = await supplychain.methods.getWalletCreationTime(walletAdress).call()
     const date = new Date(creationTime*1000)
     const creationTimeFormatted = date.toLocaleDateString("pt-BR")
     const f = await supplychain.methods.getWalletFunction(walletAdress).call()
-    this.setState({maxWeight, currentWeight, creationTimeFormatted, f})
+    this.setState({creationTimeFormatted, f})
     console.log("pressionou")
   }
   async componentDidMount(){
@@ -59,8 +55,6 @@ export default class walletsView extends Component {
           </form>
           <WalletDisplay style={this.walletDisplayStyle}
                          address={this.state.walletAdress}
-                         maxWeight={this.state.maxWeight}
-                         currentWeight={this.state.currentWeight}
                          creationTime={this.state.creationTimeFormatted}
                          f={this.state.f}
                          medicinesTotal={this.state.medicinesTotal}
