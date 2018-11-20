@@ -62,7 +62,7 @@ class SupplychainIndex extends Component{
                   <Button.Group float="right" vertical style={{marginTop: "6%", width: "25%"}}>
                     <Link route="/products/deposit"><a><Button content="Depósito"  icon="play" primary style={{border: "1px solid gray", marginBotton: "3px"}}/></a></Link>
                     <Link route="/receives/viewReceives"><a><Button content="Recibos" icon="envelope" primary style={{border: "1px solid gray", marginBotton: "3px"}}/></a></Link>
-                    <Button content="Sinistros" icon="bolt" primary style={{border: "1px solid gray", marginBotton: "3px"}}/>
+                    <Link route="/sinisters/viewSinisters"><a><Button content="Sinistros" icon="bolt" primary style={{border: "1px solid gray", marginBotton: "3px"}}/></a></Link>
                     {this.props.manager === this.state.account ? <Link route="/wallets/walletsView"><a><Button content="Pesquisar Wallet" icon="address card" primary style={{border: "1px solid gray", marginBotton: "3px"}}/></a></Link> : null}
                     <Button content="Alertas" icon="exclamation triangle" primary style={{border: "1px solid gray", marginBotton: "3px"}}/>
                     <Link route="/products/trackProduct"><a><Button content="Rastrear Produto" icon="" primary/></a></Link>
