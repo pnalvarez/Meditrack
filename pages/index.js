@@ -61,7 +61,7 @@ class SupplychainIndex extends Component{
                     />         
                   <Button.Group float="right" vertical style={{marginTop: "6%", width: "25%"}}>
                     <Link route="/products/deposit"><a><Button content="Depósito"  icon="play" primary style={{border: "1px solid gray", marginBotton: "3px"}}/></a></Link>
-                    <Button content="Recibos" icon="envelope" primary style={{border: "1px solid gray", marginBotton: "3px"}}/>
+                    <Link route="/receives/viewReceives"><a><Button content="Recibos" icon="envelope" primary style={{border: "1px solid gray", marginBotton: "3px"}}/></a></Link>
                     <Button content="Sinistros" icon="bolt" primary style={{border: "1px solid gray", marginBotton: "3px"}}/>
                     {this.props.manager === this.state.account ? <Link route="/wallets/walletsView"><a><Button content="Pesquisar Wallet" icon="address card" primary style={{border: "1px solid gray", marginBotton: "3px"}}/></a></Link> : null}
                     <Button content="Alertas" icon="exclamation triangle" primary style={{border: "1px solid gray", marginBotton: "3px"}}/>
@@ -74,7 +74,8 @@ class SupplychainIndex extends Component{
                                                  <Link route="/products/createProduct"><a><Button content="Criar Medicamento" icon="add circle" secondary/></a></Link>
                                                  </div> : null}
                     {this.state.funcao === "Productor"? <Link route="/products/GenerateProduct"><a><Button content="Gerar Produto" icon="add circle" secondary/></a></Link> : null}
-                    <Link route="/products/transferMedicine"><a><Button content="Transferir Produto" icon="share" secondary/></a></Link> 
+                    <Link route="/products/transferMedicine"><a><Button content="Transferir Produto" icon="share" secondary/></a></Link>
+                    <Link route="/sinisters/notifySinister"><a><Button content="Notificar Sinistro" icon="exclamation" secondary/></a></Link>  
                   </Button.Group>
               </div>    
             </Layout>
