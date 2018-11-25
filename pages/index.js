@@ -1,6 +1,6 @@
 import React,{ Component } from 'react';
 import web3 from '../ethereum/web3';
-import {Card, Button, Menu} from 'semantic-ui-react';
+import {Card, Button, Menu, Container} from 'semantic-ui-react';
 import supplychain from '../ethereum/supplychain.js';
 import Layout from '../components/layout';
 import InfoCards from '../components/InfoCards/InfoCards'
@@ -58,25 +58,33 @@ class SupplychainIndex extends Component{
                   <InfoCards address = {this.state.account}
                              funcao = {this.state.funcao}
                              balance = {this.state.balance}
-                    />         
-                  <Button.Group float="right" vertical style={{marginTop: "6%", width: "25%"}}>
-                    <Link route="/products/deposit"><a><Button content="Depósito"  icon="play" primary style={{border: "1px solid gray", marginBotton: "3px"}}/></a></Link>
-                    <Link route="/receives/viewReceives"><a><Button content="Recibos" icon="envelope" primary style={{border: "1px solid gray", marginBotton: "3px"}}/></a></Link>
-                    <Link route="/sinisters/viewSinisters"><a><Button content="Sinistros" icon="bolt" primary style={{border: "1px solid gray", marginBotton: "3px"}}/></a></Link>
-                    {this.props.manager === this.state.account ? <Link route="/wallets/walletsView"><a><Button content="Pesquisar Wallet" icon="address card" primary style={{border: "1px solid gray", marginBotton: "3px"}}/></a></Link> : null}
-                    <Button content="Alertas" icon="exclamation triangle" primary style={{border: "1px solid gray", marginBotton: "3px"}}/>
-                    <Link route="/products/trackProduct"><a><Button content="Rastrear Produto" icon="" primary/></a></Link>
-                    <Link route="/products/medicineList"><a><Button content="Catálogo de Remédios" icon="" primary/></a></Link>
-                  </Button.Group>
-                  <hr/>
-                  <Button.Group float="right" vertical style={{marginTop: "2%", width: "25%"}}>
-                    {this.userIsManager() ? <div><Link route="/wallets/createWallet"><a><Button content="Criar Wallet" icon="add circle" secondary/></a></Link>
-                                                 <Link route="/products/createProduct"><a><Button content="Criar Medicamento" icon="add circle" secondary/></a></Link>
-                                                 </div> : null}
-                    {this.state.funcao === "Productor"? <Link route="/products/GenerateProduct"><a><Button content="Gerar Produto" icon="add circle" secondary/></a></Link> : null}
-                    <Link route="/products/transferMedicine"><a><Button content="Transferir Produto" icon="share" secondary/></a></Link>
-                    <Link route="/sinisters/notifySinister"><a><Button content="Notificar Sinistro" icon="exclamation" secondary/></a></Link>  
-                  </Button.Group>
+                    /> 
+                  <div className="ui two column grid">   
+                    <div className="row">
+                      <div className="column">
+                        <Button.Group float="right" vertical style={{marginTop: "6%", width: "50%", height: "50%"}}>
+                            <Link route="/products/deposit"><a><Button content="Depósito"  icon="play" primary style={{border: "1px solid gray", marginBotton: "3px"}}/></a></Link>
+                            <Link route="/receives/viewReceives"><a><Button content="Recibos" icon="envelope" primary style={{border: "1px solid gray", marginBotton: "3px"}}/></a></Link>
+                            <Link route="/sinisters/viewSinisters"><a><Button content="Sinistros" icon="bolt" primary style={{border: "1px solid gray", marginBotton: "3px"}}/></a></Link>
+                            {this.props.manager === this.state.account ? <Link route="/wallets/walletsView"><a><Button content="Pesquisar Wallet" icon="address card" primary style={{border: "1px solid gray", marginBotton: "3px"}}/></a></Link> : null}
+                            <Button content="Alertas" icon="exclamation triangle" primary style={{border: "1px solid gray", marginBotton: "3px"}}/>
+                            <Link route="/products/trackProduct"><a><Button content="Rastrear Produto" icon="" primary/></a></Link>
+                            <Link route="/products/medicineList"><a><Button content="Catálogo de Remédios" icon="" primary/></a></Link>
+                        </Button.Group>
+                      </div>
+                      <div className="column">
+                        <Button.Group float="right" vertical style={{marginTop: "6%", width: "50%", height: "100%", marginLeft: "5%"}}>
+                            {this.userIsManager() ? <div><Link route="/wallets/createWallet"><a><Button content="Criar Wallet" icon="add circle" secondary/></a></Link>
+                            <Link route="/products/createProduct"><a><Button content="Criar Medicamento" icon="add circle" secondary/></a></Link>
+                            </div> : null}
+                            {this.state.funcao === "Productor"? <Link route="/products/GenerateProduct"><a><Button content="Gerar Produto" icon="add circle" secondary/></a></Link> : null}
+                            {this.state.funcao === "Buyer"? <Link route="/buy/buyMedicine"><a><Button content="Comprar Produto" icon="cart arrow down" secondary/></a></Link> : null}
+                            <Link route="/products/transferMedicine"><a><Button content="Transferir Produto" icon="share" secondary/></a></Link>
+                            <Link route="/sinisters/notifySinister"><a><Button content="Notificar Sinistro" icon="exclamation" secondary/></a></Link>  
+                        </Button.Group>
+                        </div>
+                    </div>
+                  </div>
               </div>    
             </Layout>
            
