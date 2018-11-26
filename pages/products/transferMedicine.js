@@ -40,11 +40,17 @@ export default class transferMedicine extends Component {
           <form onSubmit={this.onSubmit} className="ui form" style={{marginTop: "100px"}}>
             <div className="field" style={{marginTop: "40px"}}>
                     <label>Medicine Unique ID: </label>
-                    <input type="text" onChange={e=>this.setState({uuid: e.target.value})} name="uuid" placeholder="Insert an Unique ID of a product that you have"></input>
+                    <div className="ui left icon input">
+                      <input type="text" onChange={e=>this.setState({uuid: e.target.value})} name="uuid" placeholder="Insert an Unique ID of a product that you have"></input>
+                      <i className="tags icon"></i>
+                    </div>
             </div>
             <div className="field" style={{marginTop:"40px"}}>
                     <label>To Address: </label>
-                    <input type="text" onChange={e=>{this.setState({toAddress: e.target.value})}} name="uuid" placeholder="Insert a compatible address to receive this product"></input>
+                    <div className="ui left icon input">
+                      <input type="text" onChange={e=>{this.setState({toAddress: e.target.value})}} name="uuid" placeholder="Insert a compatible address to receive this product"></input>
+                      <i className="users icon"></i>
+                    </div>
             </div>
             <hr/>
             {this.state.errorMessage !== '' ? 

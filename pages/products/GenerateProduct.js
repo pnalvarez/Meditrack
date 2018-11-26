@@ -41,11 +41,17 @@ export default class GenerateProduct extends Component {
         <form onSubmit={this.onSubmit} className="ui form">
                 <div className="field" style={{marginTop: "40px"}}>
                     <label>UUID: </label>
-                    <input type="text" name="uuid" onChange={e=>this.setState({uuid: e.target.value})} placeholder="Insert an Unique ID"></input>
+                    <div className="ui left icon input">
+                        <input type="text" name="uuid" onChange={e=>this.setState({uuid: e.target.value})} placeholder="Insert an Unique ID"></input>
+                        <i className="barcode icon"></i>
+                    </div>
                 </div>
                 <div className="field" style={{marginTop: "40px"}}>
                     <label>Medicine Id: </label>
-                    <input type="text" name="id" onChange={e=>this.setState({id: e.target.value})} placeholder="ID of medicine on database"></input>
+                    <div className="ui left icon input">
+                        <input type="text" name="id" onChange={e=>this.setState({id: e.target.value})} placeholder="ID of medicine on database"></input>
+                        <i className="address card icon"></i>
+                    </div>
                 </div>
                 {this.state.errorMessage !== '' ? 
                     <Message negative>

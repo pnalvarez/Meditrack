@@ -70,6 +70,7 @@ export default class deposit extends Component {
                       <HeaderCell style={{backgroundColor: "#8FE4DF"}}>Validity</HeaderCell>
                       <HeaderCell style={{backgroundColor: "#8FE4DF"}}>Timestamp</HeaderCell>
                       <HeaderCell style={{backgroundColor: "#3F51B5", color: "white"}}>Path</HeaderCell>
+                      <HeaderCell style={{backgroundColor: "black", color: "white"}}>Throw Away</HeaderCell>
                   </Row>
               </Header>
               <Body>

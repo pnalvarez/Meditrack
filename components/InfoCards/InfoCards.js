@@ -1,7 +1,16 @@
 import React, { Component } from 'react'
 import web3 from '../../ethereum/web3'
+import PropTypes from 'prop-types'
 
 export default class InfoCards extends Component {
+
+  static propTypes={
+      address: PropTypes.string.isRequired,
+      balance: PropTypes.string.isRequired,
+      funcao: PropTypes.string.isRequired,
+      sinisters: PropTypes.string.isRequired,
+      creationTime: PropTypes.string.isRequired,
+  }
   render() {
     return (
       <div className="ui cards" style={{marginTop: "5%"}}>
@@ -34,6 +43,26 @@ export default class InfoCards extends Component {
                 </div>
                 <div className="description">
                     {this.props.funcao}
+                </div>
+        </div>
+        </div>
+        <div className="card">
+            <div className="content">
+                <div className="header">
+                    Sinistros cadastrados
+                </div>
+                <div className="description">
+                    {this.props.sinisters}
+                </div>
+            </div>
+        </div>
+        <div className="card">
+            <div className="content">
+                <div className="header">
+                    Carteira criada em:
+                </div>
+                <div className="description">
+                    {this.props.creationTime}
                 </div>
             </div>
         </div>

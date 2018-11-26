@@ -12,6 +12,7 @@ class SupplychainIndex extends Component{
         account: '0x0',
         funcao: '',
         sinisters: '',
+        creationTime: '',
         balance: '',
         receives: '',
         medicines: [],
@@ -40,9 +41,14 @@ class SupplychainIndex extends Component{
         const balance = await supplychain.methods.getBalanceof(accounts[0]).call()
         const productTrace = await supplychain.methods.getProductCreationTime("uuid0").call()
         const date = new Date(productTrace*1000)
+        const sinisters = await supplychain.methods.getSinistersQtd(accounts[0]).call()
+        const timestamp = await supplychain.methods.getWalletCreationTime(accounts[0]).call()
+        const creationTime = new Date(timestamp*1000)
+        const creationTimeFormatted = creationTime.toLocaleDateString("pt-BR")
+
         console.log("product trace",date)
         // const medicines = await supplychain.methods.medicineNames().call()
-        this.setState({account: accounts[0], funcao: funcao, balance: balance, productTrace: productTrace})
+        this.setState({account: accounts[0], funcao: funcao, balance: balance, productTrace: productTrace, sinisters, creationTime: creationTimeFormatted})
     }
 
     render(){
@@ -58,12 +64,14 @@ class SupplychainIndex extends Component{
                   <InfoCards address = {this.state.account}
                              funcao = {this.state.funcao}
                              balance = {this.state.balance}
+                             sinisters = {this.state.sinisters}
+                             creationTime = {this.state.creationTime}
                     /> 
                   <div className="ui two column grid">   
                     <div className="row">
                       <div className="column">
                         <Button.Group float="right" vertical style={{marginTop: "6%", width: "50%", height: "50%"}}>
-                            <Link route="/products/deposit"><a><Button content="Depósito"  icon="play" primary style={{border: "1px solid gray", marginBotton: "3px"}}/></a></Link>
+                            <Link route="/products/deposit"><a><Button dataContent="Add users to your feed" content="Depósito"  icon="play" primary style={{border: "1px solid gray", marginBotton: "3px"}}/></a></Link>
                             <Link route="/receives/viewReceives"><a><Button content="Recibos" icon="envelope" primary style={{border: "1px solid gray", marginBotton: "3px"}}/></a></Link>
                             <Link route="/sinisters/viewSinisters"><a><Button content="Sinistros" icon="bolt" primary style={{border: "1px solid gray", marginBotton: "3px"}}/></a></Link>
                             {this.props.manager === this.state.account ? <Link route="/wallets/walletsView"><a><Button content="Pesquisar Wallet" icon="address card" primary style={{border: "1px solid gray", marginBotton: "3px"}}/></a></Link> : null}

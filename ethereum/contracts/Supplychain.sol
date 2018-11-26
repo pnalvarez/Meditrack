@@ -112,6 +112,7 @@ contract Supplychain{
     event NewSinister(string title, string uuid, address responsible); //sinistro notificado
     event PathIncremented(string uuid, string id, address adr, uint timestamp); //caminho de um produto incrementado
     event DiscardedProduct(string uuid, address lastowner, uint timestamp);
+    event ThrowProductAway(string uuid, address by, uint timestamp);
     //EVENTS END
 
     //MODIFIERS
@@ -453,6 +454,14 @@ contract Supplychain{
        emit NewSinister(_title, _product, msg.sender);
 
        return sinister;
+   }
+
+   function throwAway(string uuid)public checkTime productOwner(msg.sender, uuid){
+
+       discardProduct(uuid);
+       uint timestamp = now;
+       
+       emit ThrowProductAway(uuid, msg.sender, timestamp);
    }
    //TRANSACTIONS END
    //TRANSACTIONS END

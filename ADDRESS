@@ -23,12 +23,10 @@
 -Encontrar onde esta um produto dentro da cadeia no exato instante
 -Trackear um produto num dado instante inserido pelo usuario 
 
-Proximos passos:
+Proximos passos(24/11/2018):
 
--Redefinir contrato e dar redeploy de forma a poder verificar todo o path por onde um produto passou(o path da struct de um produto ainda nao é publico para o Javascript)
--Notificar sinistro de dado produto
--Ver todos os sinistros da cadeia pelo manager e todos os sinistros verificados por um participante qualquer
--Tabela para ver todos os recibos de um usuario(o mesmo podendo ver todos os produtos que ja recebeu enquanto participante da cadeia)
--Tela de notificacoes
--Login no sistema(é necessario?)
+-Implementar sistema de notificações para produtos que estao chegando ao prazo de validade
+-Melhorar o design
+-Redefinir contrato para tratar produtos como definindo o caminho que devem seguir
+-
 

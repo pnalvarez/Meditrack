@@ -44,16 +44,24 @@ export default class createWallet extends Component {
         <form className="ui form" onSubmit={this.onSubmit} style={{marginTop: "60px"}} error>
                 <div className="field" style={{marginBottom: "40px"}}>
                     <label>Address: </label>
-                    <input type="text" onChange={(e)=>{this.setState({walletAddress: e.target.value})}} name="address" placeholder="Insert Ethereum Wallet Address"></input>
+                    <div className="ui left icon input">
+                        <input type="text" onChange={(e)=>{this.setState({walletAddress: e.target.value})}} name="address" placeholder="Insert Ethereum Wallet Address"></input>
+                        <i className="tags icon"></i>
+                    </div>
                 </div>
-                <select onChange={(e)=>{this.setState({funcao: e.target.value})}} className="ui dropdown" style={{marginBottom: "40px"}}>
-                    <option value="Productor">Productor</option>
-                    <option value="Stock">Stock</option>
-                    <option value="Transport">Transport</option>
-                    <option value="CirurgicCenter">Cirurgic Center</option>
-                    <option value="Seller">Seller</option>
-                    <option value="Buyer">Buyer</option>
-               </select>
+                <div className="field" style={{marginBottom: "40px"}}>
+                    <label>Function: </label>
+                    <div className="ui left icon input">
+                    <select onChange={(e)=>{this.setState({funcao: e.target.value})}} className="ui dropdown" style={{marginBottom: "40px"}}>
+                        <option value="Productor">Productor</option>
+                        <option value="Stock">Stock</option>
+                        <option value="Transport">Transport</option>
+                        <option value="CirurgicCenter">Cirurgic Center</option>
+                        <option value="Seller">Seller</option>
+                        <option value="Buyer">Buyer</option>
+                    </select>
+                    </div>
+               </div>
                {this.state.errorMessage !== '' ? 
                     <Message negative>
                         <Message.Header>Oops, there was an error!</Message.Header>

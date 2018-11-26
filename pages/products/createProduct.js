@@ -39,6 +39,8 @@ export default class createProduct extends Component {
   async componentDidMount(){
     const accounts = await web3.eth.getAccounts()
     this.setState({account: accounts[0]})
+
+    var createProductEvent = await supplychain.events.medicineCreated()
   }
 
    render() {
@@ -48,23 +50,38 @@ export default class createProduct extends Component {
             <form onSubmit={this.onSubmit} className="ui form">
                 <div className="field" style={{marginTop: "20px"}}>
                     <label>Id: </label>
-                    <input type="text" onChange={(e)=>{this.setState({id: e.target.value})}} name="id" placeholder="ID"></input>
+                    <div className="ui left icon input">
+                        <input type="text" onChange={(e)=>{this.setState({id: e.target.value})}} name="id" placeholder="ID"></input>
+                        <i className="globe icon"></i>
+                    </div>
                 </div>
                 <div className="field" style={{marginTop: "20px"}}>
                     <label>Name</label>
-                    <input type="text" onChange={(e)=>{this.setState({name: e.target.value})}} name="name" placeholder="Name"></input>
+                    <div className="ui left icon input">
+                        <input type="text" onChange={(e)=>{this.setState({name: e.target.value})}} name="name" placeholder="Name"></input>
+                        <i className="edit outline icon"></i>
+                    </div>
                 </div>
                      <div className="field" style={{marginTop: "20px"}}>
                          <label>Description</label>
+                         <div className="ui left icon input">
                             <input type="text" onChange={(e)=>{this.setState({description: e.target.value})}} name="description" placeholder="Description"></input>
+                            <i className="pencil alternate icon"></i>
+                        </div>
                     </div>
                 <div className="field" style={{marginTop: "20px"}}>
                     <label>Value</label>
-                    <input type="text" onChange={(e)=>{this.setState({value: e.target.value})}} name="value" placeholder="Value"></input>
+                    <div className="ui left icon input">
+                        <input type="text" onChange={(e)=>{this.setState({value: e.target.value})}} name="value" placeholder="Value"></input>
+                        <i className="money bill alternate icon"></i>
+                    </div>
                 </div>
                 <div className="field" style={{marginTop: "20px"}}>
                     <label>Validity</label>
-                    <input type="text" onChange={(e)=>{this.setState({validity: e.target.value})}} name="validity" placeholder="Validity"></input>
+                    <div className="ui left icon input">
+                        <input type="text" onChange={(e)=>{this.setState({validity: e.target.value})}} name="validity" placeholder="Validity"></input>
+                        <i className="shopping cart icon"></i>
+                    </div>
                 </div>
                 <hr/>
                 {this.state.errorMessage !== '' ? 
