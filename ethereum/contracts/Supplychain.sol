@@ -35,7 +35,7 @@ contract Supplychain{
         bool initialized;
         uint value; //preço
         uint validity;
-        /* string[] components; */
+        /* string components; */
     }
     //representa um produto único
     struct Product{
@@ -84,6 +84,7 @@ contract Supplychain{
 
     string[]public medicineNames;
     string[]public allProducts;
+    address[]public allWallets;
     //verifica se uma carteira participa ou nao da cadeia
     mapping(address => bool)private participates;
     //Time when contract was deployed
@@ -391,6 +392,7 @@ contract Supplychain{
 
        wallets[adr] = Wallet(now,stringToFunction[f]);
        participates[adr] = true;
+       allWallets.push(adr);
    }
 
    /*Funcao que de fato cria um medicamento com um identificador unico naquela categoria de medicamentos identificada por id*/
@@ -460,7 +462,7 @@ contract Supplychain{
 
        discardProduct(uuid);
        uint timestamp = now;
-       
+
        emit ThrowProductAway(uuid, msg.sender, timestamp);
    }
    //TRANSACTIONS END
@@ -576,6 +578,12 @@ contract Supplychain{
    function getProductCreationTime(string uuid)public view returns(uint){
      return products[uuid].creationTime;
    }
+   function getProductCreator(string uuid)public view returns(address){
+       return products[uuid].path[0];
+   }
+   function getTimestamp(string uuid, uint index)public view returns(uint){
+       return products[uuid].timestamps[index];
+   }
 
    //Funcoes de acesso referentes a um Receive
    function getReceiveProduct(uint index, address adr)public view returns(string){
@@ -637,6 +645,10 @@ contract Supplychain{
   function getAllProductsTotal()public view returns(uint){
     return allProducts.length;
 }
+  function getAllWalletsTotal()public view returns(uint){
+      return allWallets.length;
+  }
+  
 }
 
 
