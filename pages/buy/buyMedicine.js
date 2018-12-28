@@ -30,7 +30,7 @@ export default class buyMedicine extends Component {
 
       try{
           await supplychain.methods.buyMedicine(from,uuid)
-          .send({from: account, value: this.state.value})
+          .send({from: account, value: web3.utils.toWei(this.state.value, 'ether')})
           Router.pushRoute('/')
       }catch(err){
           this.setState({errorMessage: err.message})

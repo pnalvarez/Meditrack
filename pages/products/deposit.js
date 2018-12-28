@@ -60,7 +60,6 @@ export default class deposit extends Component {
     const {productsTotal, products} = this.state
     return (
       <Layout>
-          <h1>{productsTotal}</h1>
           <Table>
               <Header>
                   <Row>

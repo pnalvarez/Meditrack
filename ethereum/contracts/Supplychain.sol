@@ -55,7 +55,7 @@ contract Supplychain{
       string[] components;
     } */
     //representa um possivel sinistro para um produto no meio da cadeia
-    struct Sinister{
+    struct Sinister {
 
         string title;
         string description;
@@ -419,6 +419,7 @@ contract Supplychain{
 
    //Funcao que pega uma unidade de medicamento e transfere para outra carteira
    function transfer(string uuid, address to)public
+   validProduct(uuid)
    productOwner(msg.sender, uuid)
    supplychainRule(msg.sender, to)
     checkTime{
