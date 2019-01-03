@@ -17,14 +17,20 @@ class Header extends Component{
         return (
             <Menu>
                 <Link route="/">
-                  <a className="item">Blockcine</a>
+                  <a className="item">Meditrack</a>
                 </Link>
                 <Menu.Menu position="right">
-                    <Link route="/">
-                        <a className="item">Products</a>
+                    <Link route="/products/transferMedicine">
+                        <a className="item">Transferir</a>
                     </Link>
-                    <Link route="/createWallet">
-                        <a className="item">+Wallet</a>
+                    <Link route="/products/trackProduct">
+                        <a className="item">Rastrear</a>
+                    </Link>
+                    <Link route="/receives/viewReceives">
+                        <a className="item">Recibos</a>
+                    </Link>
+                    <Link route="/products/deposit">
+                        <a className="item">Depósito</a>
                     </Link>
                 </Menu.Menu>
             </Menu>

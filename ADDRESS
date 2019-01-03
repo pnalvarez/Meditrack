@@ -1,4 +1,4 @@
-0xBDc0F5041cbd8F5Ccdb97D1D457685d66244d03B
+0xC495f8D291C7367ac4fE76DB4cdD97978e8FaC75
 
 Endereços:
 
@@ -38,3 +38,12 @@ Proximos passos(24/11/2018):
 -Redefinir contrato para tratar produtos como definindo o caminho que devem seguir
 -
 
+
+02/01/2019
+
+O que falta:
+
+-Alerta de produto vencido na tela de notificacoes(?)
+-Mostrar path de um produto
+-Mostrar produtos que compõem o depósito de uma carteira
+-Refinar o design
