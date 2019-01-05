@@ -72,8 +72,8 @@ class SupplychainIndex extends Component{
                       <div className="column">
                         <Button.Group float="right" vertical style={{marginTop: "6%", width: "50%", height: "50%"}}>
                             <Link route="/products/deposit"><a><Button dataContent="Add users to your feed" content="Depósito"  icon="play" primary style={{border: "1px solid gray", marginBotton: "3px"}}/></a></Link>
-                            <Link route="/receives/viewReceives"><a><Button content="Recibos" icon="envelope" primary style={{border: "1px solid gray", marginBotton: "3px"}}/></a></Link>
-                            <Link route="/sinisters/viewSinisters"><a><Button content="Sinistros" icon="bolt" primary style={{border: "1px solid gray", marginBotton: "3px"}}/></a></Link>
+                            {this.state.funcao !== "Productor" ? <Link route="/receives/viewReceives"><a><Button content="Recibos" icon="envelope" primary style={{border: "1px solid gray", marginBotton: "3px"}}/></a></Link> : null}
+                            {this.state.funcao !== "Buyer" ? <Link route="/sinisters/viewSinisters"><a><Button content="Sinistros" icon="bolt" primary style={{border: "1px solid gray", marginBotton: "3px"}}/></a></Link> : null}
                             {this.props.manager === this.state.account ? <Link route="/wallets/walletsView"><a><Button content="Pesquisar Wallet" icon="address card" primary style={{border: "1px solid gray", marginBotton: "3px"}}/></a></Link> : null}
                             <Link route="/products/trackProduct"><a><Button content="Rastrear Produto" icon="" primary/></a></Link>
                             <Link route="/products/medicineList"><a><Button content="Catálogo de Remédios" icon="" primary/></a></Link>
@@ -86,7 +86,7 @@ class SupplychainIndex extends Component{
                             </div> : null}
                             {this.state.funcao === "Productor"? <Link route="/products/GenerateProduct"><a><Button content="Gerar Produto" icon="add circle" secondary/></a></Link> : null}
                             {this.state.funcao === "Buyer"? <Link route="/buy/buyMedicine"><a><Button content="Comprar Produto" icon="cart arrow down" secondary/></a></Link> : null}
-                            <Link route="/products/transferMedicine"><a><Button content="Transferir Produto" icon="share" secondary/></a></Link>
+                            {this.state.funcao !== "Buyer" && this.state.funcao !== "Seller" ? <Link route="/products/transferMedicine"><a><Button content="Transferir Produto" icon="share" secondary/></a></Link> : null}
                             {this.state.funcao !== "Buyer" ? <Link route="/sinisters/notifySinister"><a><Button content="Notificar Sinistro" icon="exclamation" secondary/></a></Link> : null}
                         </Button.Group>
                         </div>

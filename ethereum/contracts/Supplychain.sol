@@ -178,12 +178,11 @@ contract Supplychain{
     }
 
     modifier supplychainRule(address from, address to){ //TESTAR ISSO AQUI
-      bool[5] memory rules =  //Productor -> Transport -> Stock -> Seller -> Buyer
+      bool[4] memory rules =  //Productor -> Transport -> Stock -> Seller -> Buyer
       [wallets[from].func == Function.Productor && wallets[to].func == Function.Transport,
       wallets[from].func == Function.Transport && wallets[to].func == Function.Stock,
       wallets[from].func == Function.Stock && wallets[to].func == Function.CirurgicCenter,
-      wallets[from].func == Function.Stock && wallets[to].func == Function.Seller,
-      wallets[from].func == Function.Seller && wallets[to].func == Function.Buyer];
+      wallets[from].func == Function.Stock && wallets[to].func == Function.Seller];
 
        bool ok = false;
 
@@ -433,10 +432,11 @@ contract Supplychain{
    function buyMedicine(address from, string uuid)public payable
    only(Function.Buyer)
    productExists(uuid) productOwner(from, uuid) checkTime
-   validProduct(uuid) supplychainRule(from, msg.sender)
+   validProduct(uuid) 
    returns(uint){
 
        require(msg.value >= medicines[products[uuid].id].value, "Not enough balance");
+       require(wallets[from].func == Function.Seller, "Only seller can sell");
 
        uint change = sendChange();
        transferOperation(from, uuid, msg.sender);

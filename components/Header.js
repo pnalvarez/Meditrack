@@ -20,14 +20,11 @@ class Header extends Component{
                   <a className="item">Meditrack</a>
                 </Link>
                 <Menu.Menu position="right">
-                    <Link route="/products/transferMedicine">
-                        <a className="item">Transferir</a>
-                    </Link>
                     <Link route="/products/trackProduct">
                         <a className="item">Rastrear</a>
                     </Link>
-                    <Link route="/receives/viewReceives">
-                        <a className="item">Recibos</a>
+                    <Link route="/products/medicineList">
+                        <a className="item">Catálogo</a>
                     </Link>
                     <Link route="/products/deposit">
                         <a className="item">Depósito</a>
