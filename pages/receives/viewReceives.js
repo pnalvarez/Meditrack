@@ -57,7 +57,6 @@ export default class viewReceives extends Component {
     const {account, receives, receivesQtd} = this.state
     return (
       <Layout>
-          {receivesQtd}
           <Table>
               <Header>
                   <Row>

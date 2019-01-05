@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import SupplychainIndex from '../pages';
 import supplychain from '../ethereum/supplychain'
 import web3 from '../ethereum/web3'
+import {Link} from '../routes'
 
 export default class ProductRow extends Component {
 
@@ -50,7 +51,7 @@ export default class ProductRow extends Component {
           <Cell style={{borderRight: "1px solid gray", borderBotton: "1px solid gray"}}>{this.checkValidity(isValid)}</Cell>
           <Cell style={{borderRight: "1px solid gray", borderBotton: "1px solid gray"}}>{dateString}</Cell>
           <Cell style={{borderRight: "1px solid gray", borderBotton: "1px solid gray"}}>
-                <Button content="See Path" icon="angle double right" primary />
+                <Link route="/products/path/productPath"><a><Button content="See Path" icon="angle double right" primary /></a></Link>
           </Cell>
           <Cell style={{borderRight: "1px solid gray", borderBotton: "1px solid gray"}}>
                 <Button onClick={this.throwProductAway} icon="trash" primary style={{width: "90%"}}/>

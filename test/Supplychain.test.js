@@ -37,38 +37,30 @@ const normalPath = ["Productor","Transport","Stock","Seller","Buyer"];
 
           let medicineName;
           let medicinedescription;
-          let medicineWeight;
           let medicineValue;
           let medicineValidity;
 
-          await supplychain.methods.medicineCreate("id1", "name", "descricao", 10, 10, defaultValidity)
-          .send({from: accounts[0], value: 0, gas: gasValue});
-
-          await supplychain.methods.medicineCreate("id2", "name2", "descricao2", 10, 10, 1000)
+          await supplychain.methods.medicineCreate("id1", "name", "descricao",100, defaultValidity)
           .send({from: accounts[0], value: 0, gas: gasValue});
 
           const medicineId = await supplychain.methods.medicineNames(0).call();
           medicineName = await supplychain.methods.getMedicineName("id1").call();
           medicinedescription = await supplychain.methods.getMedicineDescription("id1").call();
-          medicineWeight = await supplychain.methods.getMedicineWeight("id1").call();
           medicineValue = await supplychain.methods.getMedicineValue("id1").call();
           medicineValidity = await supplychain.methods.getMedicineValidity("id1").call();
 
           assert.equal(medicineId, "id1");
           assert.equal(medicineName, "name");
           assert.equal(medicinedescription, "descricao");
-          assert.equal(medicineWeight, 10);
-          assert.equal(medicineValue, 10);
+          assert.equal(medicineValue, 100);
           assert.equal(medicineValidity, defaultValidity);
         });
 
         it('does not allow anyone else to create a medicine', async () =>{
 
            try{
-             await supplychain.methods.medicineCreate("id1", "name", "descricao",0,0,0)
+             await supplychain.methods.medicineCreate("id1", "name", "descricao",0,0)
              .send({from: accounts[1], value: 0, gas: gasValue});
-
-             assert(false);
            }
            catch(err){
              assert(err);

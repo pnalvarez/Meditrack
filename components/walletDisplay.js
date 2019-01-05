@@ -64,7 +64,7 @@ export default class walletDisplay extends Component {
                 <div className="summary">
                     <a style={{fontSize: "20px"}}>Medicines: </a> 
                     <ul style={{marginLeft: "15%"}}>
-                        
+                       <li>{this.props.medicines[0]}</li>
                     </ul>
                 </div>
             </div>

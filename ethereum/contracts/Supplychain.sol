@@ -96,7 +96,7 @@ contract Supplychain{
     /*mapping que indica se uma carteira está dentro do centro alfa*/
     mapping(address => bool) isInAlfaCenter;
     mapping(string => Function) stringToFunction;
-
+    mapping(string => bool) productWasDeleted;
     //VARIABLES END
 
     /* mapping(string => bool) knownComponent;
@@ -352,6 +352,7 @@ contract Supplychain{
       wallets[owner].products[uuid] = false;
       products[uuid].owner = 0x0;
       productExist[uuid] = false;
+      productWasDeleted[uuid] = true;
 
       int index = searchProductIndex(uuid);
 
@@ -396,11 +397,11 @@ contract Supplychain{
    }
 
    /*Funcao que de fato cria um medicamento com um identificador unico naquela categoria de medicamentos identificada por id*/
-   function medicineGenerate(string uuid, string id)public only(Function.Productor)
+   function medicineGenerate(string uuid, string id)public only(Function.Productor) 
    checkTime{
        require(medicines[id].initialized, "medicine does not exist");
        require(!productExist[uuid], "product already generated");
-
+       require(!productWasDeleted[uuid], "product has already existed and been deleted at some point");
 
        uint time = now;
        wallets[msg.sender].medicines[id] += 1;

@@ -75,7 +75,6 @@ class SupplychainIndex extends Component{
                             <Link route="/receives/viewReceives"><a><Button content="Recibos" icon="envelope" primary style={{border: "1px solid gray", marginBotton: "3px"}}/></a></Link>
                             <Link route="/sinisters/viewSinisters"><a><Button content="Sinistros" icon="bolt" primary style={{border: "1px solid gray", marginBotton: "3px"}}/></a></Link>
                             {this.props.manager === this.state.account ? <Link route="/wallets/walletsView"><a><Button content="Pesquisar Wallet" icon="address card" primary style={{border: "1px solid gray", marginBotton: "3px"}}/></a></Link> : null}
-                            <Button content="Alertas" icon="exclamation triangle" primary style={{border: "1px solid gray", marginBotton: "3px"}}/>
                             <Link route="/products/trackProduct"><a><Button content="Rastrear Produto" icon="" primary/></a></Link>
                             <Link route="/products/medicineList"><a><Button content="Catálogo de Remédios" icon="" primary/></a></Link>
                         </Button.Group>
@@ -88,7 +87,7 @@ class SupplychainIndex extends Component{
                             {this.state.funcao === "Productor"? <Link route="/products/GenerateProduct"><a><Button content="Gerar Produto" icon="add circle" secondary/></a></Link> : null}
                             {this.state.funcao === "Buyer"? <Link route="/buy/buyMedicine"><a><Button content="Comprar Produto" icon="cart arrow down" secondary/></a></Link> : null}
                             <Link route="/products/transferMedicine"><a><Button content="Transferir Produto" icon="share" secondary/></a></Link>
-                            <Link route="/sinisters/notifySinister"><a><Button content="Notificar Sinistro" icon="exclamation" secondary/></a></Link>  
+                            {this.state.funcao !== "Buyer" ? <Link route="/sinisters/notifySinister"><a><Button content="Notificar Sinistro" icon="exclamation" secondary/></a></Link> : null}
                         </Button.Group>
                         </div>
                     </div>

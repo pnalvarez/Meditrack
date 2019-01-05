@@ -1,4 +1,4 @@
-0xC495f8D291C7367ac4fE76DB4cdD97978e8FaC75
+0x728D1461459dC2Cb02a45bBaFbEd18059B2DefdC
 
 Endereços:
 
@@ -47,3 +47,4 @@ O que falta:
 -Mostrar path de um produto
 -Mostrar produtos que compõem o depósito de uma carteira
 -Refinar o design
+-Testes automatizados no contrato atualizado

@@ -57,7 +57,6 @@ export default class viewSinisters extends Component {
     const {sinistersQtd} = this.state
     return (
       <Layout>
-          {sinistersQtd}
           <Table>
               <Header>
                   <Row>
