@@ -46,6 +46,7 @@ contract Supplychain{
         uint creationTime;
         address[] path;
         uint[] timestamps;
+        uint pathLength;
     }
     //Produto incompleto que nao pode sair das maos do produtor enquanto nao estiver pronto
     /* struct IncompleteProduct{
@@ -338,6 +339,7 @@ contract Supplychain{
 
        products[uuid].path.push(adr);
        products[uuid].timestamps.push(time);
+       products[uuid].pathLength += 1;
 
        emit PathIncremented(uuid, products[uuid].id, adr, time);
   }
@@ -409,7 +411,7 @@ contract Supplychain{
 
        address[] memory array;
        uint[] memory times;
-       products[uuid] = Product(id, msg.sender, true, time, array, times);
+       products[uuid] = Product(id, msg.sender, true, time, array, times, 0);
 
        incrementPath(uuid, msg.sender);
        allProducts.push(uuid);
@@ -582,6 +584,9 @@ contract Supplychain{
    }
    function getProductCreator(string uuid)public view returns(address){
        return products[uuid].path[0];
+   }
+   function getProductPathLength(string uuid)public view returns(uint){
+       return products[uuid].pathLength;
    }
    function getTimestamp(string uuid, uint index)public view returns(uint){
        return products[uuid].timestamps[index];
