@@ -75,21 +75,24 @@ class SupplychainIndex extends Component{
                             {this.state.funcao !== "Productor" ? <Link route="/receives/viewReceives"><a><Button content="Recibos" icon="envelope" primary style={{border: "1px solid gray", marginBotton: "3px"}}/></a></Link> : null}
                             {this.state.funcao !== "Buyer" ? <Link route="/sinisters/viewSinisters"><a><Button content="Sinistros" icon="bolt" primary style={{border: "1px solid gray", marginBotton: "3px"}}/></a></Link> : null}
                             {this.props.manager === this.state.account ? <Link route="/wallets/walletsView"><a><Button content="Pesquisar Wallet" icon="address card" primary style={{border: "1px solid gray", marginBotton: "3px"}}/></a></Link> : null}
-                            <Link route="/products/trackProduct"><a><Button content="Rastrear Produto" icon="" primary/></a></Link>
-                            <Link route="/products/medicineList"><a><Button content="Catálogo de Remédios" icon="" primary/></a></Link>
+                            <Link route="/products/trackProduct"><a><Button content="Rastrear Produto" icon="" primary style={{border: "1px solid gray", marginBotton: "3px"}}/></a></Link>
+                            <Link route="/products/medicineList"><a><Button content="Catálogo de Remédios" icon="" primary style={{border: "1px solid gray", marginBotton: "3px"}}/></a></Link>
                         </Button.Group>
                       </div>
                       <div className="column">
                         <Button.Group float="right" vertical style={{marginTop: "6%", width: "50%", height: "100%", marginLeft: "5%"}}>
-                            {this.userIsManager() ? <div><Link route="/wallets/createWallet"><a><Button content="Criar Wallet" icon="add circle" secondary/></a></Link>
-                            <Link route="/products/createProduct"><a><Button content="Criar Medicamento" icon="add circle" secondary/></a></Link>
+                            {this.userIsManager() ? <div><Link route="/wallets/createWallet"><a><Button content="Criar Wallet" icon="add circle" secondary style={{border: "1px solid gray", marginBotton: "3px"}}/></a></Link>
+                            <Link route="/products/createProduct"><a><Button content="Criar Medicamento" icon="add circle" secondary style={{border: "1px solid gray", marginBotton: "3px"}}/></a></Link>
                             </div> : null}
                             {this.state.funcao === "Productor"? <Link route="/products/GenerateProduct"><a><Button content="Gerar Produto" icon="add circle" secondary/></a></Link> : null}
-                            {this.state.funcao === "Buyer"? <Link route="/buy/buyMedicine"><a><Button content="Comprar Produto" icon="cart arrow down" secondary/></a></Link> : null}
-                            {this.state.funcao !== "Buyer" && this.state.funcao !== "Seller" ? <Link route="/products/transferMedicine"><a><Button content="Transferir Produto" icon="share" secondary/></a></Link> : null}
-                            {this.state.funcao !== "Buyer" ? <Link route="/sinisters/notifySinister"><a><Button content="Notificar Sinistro" icon="exclamation" secondary/></a></Link> : null}
+                            {this.state.funcao === "Buyer"? <Link route="/buy/buyMedicine"><a><Button content="Comprar Produto" icon="cart arrow down" secondary style={{border: "1px solid gray", marginBotton: "3px"}}/></a></Link> : null}
+                            {this.state.funcao !== "Buyer" && this.state.funcao !== "Seller" ? <Link route="/products/transferMedicine"><a><Button content="Transferir Produto" icon="share" secondary style={{border: "1px solid gray", marginBotton: "3px"}}/></a></Link> : null}
+                            {this.state.funcao !== "Buyer" ? <Link route="/sinisters/notifySinister"><a><Button content="Notificar Sinistro" icon="exclamation" secondary style={{border: "1px solid gray", marginBotton: "3px"}}/></a></Link> : null}
                         </Button.Group>
                         </div>
+                    </div>
+                    <div className="row" style={{marginTop: "50px", marginLeft: "10px"}}>
+                        <a style={{width: "30%"}} href="https://github.com/pnalvarez/Contrato-Meditrack/blob/master/Meditrack.sol"><Button positive content="Contrato Supplychain"></Button></a>
                     </div>
                   </div>
               </div>    
