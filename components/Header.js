@@ -20,9 +20,7 @@ class Header extends Component{
                   <a className="item">Meditrack</a>
                 </Link>
                 <Menu.Menu position="right">
-                    <Link route="/showContract">
-                        <a className="item">Contrato</a>
-                    </Link>
+                        <a href="https://github.com/pnalvarez/Contrato-Meditrack/blob/master/Meditrack.sol" className="item">Contrato</a>            
                     <Link route="/products/trackProduct">
                         <a className="item">Rastrear</a>
                     </Link>
