@@ -619,6 +619,15 @@ contract Supplychain{
    }
 
    //Funcoes de acesso referentes a um sinistros
+   function getSinisterIdMapping(string id)public view returns(string){
+       return sinisterMapping[id].id;
+   }
+   function getSinisterIdArray(uint index)public view returns(string){
+       return  allSinisters[index].id;
+   }
+   function getSinisterId(uint index, address adr)public view returns(string){
+       return sinisters[adr][index].id;
+   }
    function getSinisterTitle(uint index, address adr)public view returns(string){
         return sinisters[adr][index].title;
    }
