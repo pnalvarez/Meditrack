@@ -58,6 +58,7 @@ contract Supplychain{
     //representa um possivel sinistro para um produto no meio da cadeia
     struct Sinister {
 
+        string id;
         string title;
         string description;
         string envolvedProduct; //identificador do produto unico
@@ -98,6 +99,9 @@ contract Supplychain{
     mapping(address => bool) isInAlfaCenter;
     mapping(string => Function) stringToFunction;
     mapping(string => bool) productWasDeleted;
+    mapping(string=>Sinister) sinisterMapping;
+    Sinister[] allSinisters;
+    
     //VARIABLES END
 
     /* mapping(string => bool) knownComponent;
@@ -111,7 +115,7 @@ contract Supplychain{
     event medicineBought(address by, string uuid); //produto comprado
     event FunctionDesignated(address to, Function f); //funcao designada
     event ProductOutOfValidity(string uuid, string id, uint time); //produto venceu a validade
-    event NewSinister(string title, string uuid, address responsible); //sinistro notificado
+    event NewSinister(string id, string title, string uuid, address responsible); //sinistro notificado
     event PathIncremented(string uuid, string id, address adr, uint timestamp); //caminho de um produto incrementado
     event DiscardedProduct(string uuid, address lastowner, uint timestamp);
     event ThrowProductAway(string uuid, address by, uint timestamp);
@@ -449,15 +453,17 @@ contract Supplychain{
    }
 
    /*Função chamada por um usuário para notificar um sinistro com um produto de sua posse*/
-   function notifySinister(string _title, string _description, string _product)public checkTime
+   function notifySinister(string _id, string _title, string _description, string _product)public checkTime
    productExists(_product) productOwner(msg.sender, _product) returns(Sinister){
 
        uint _timestamp = now;
-       Sinister memory sinister = Sinister(_title,_description,_product,msg.sender,_timestamp);
+       Sinister memory sinister = Sinister(_id, _title,_description,_product,msg.sender,_timestamp);
        sinisters[msg.sender].push(sinister);
+       allSinisters.push(sinister);
+       sinisterMapping[_id] = sinister;
        discardProduct(_product);
 
-       emit NewSinister(_title, _product, msg.sender);
+       emit NewSinister(_id, _title, _product, msg.sender);
 
        return sinister;
    }
