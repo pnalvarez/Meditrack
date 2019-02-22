@@ -1,6 +1,6 @@
 import React,{ Component } from 'react';
 import web3 from '../ethereum/web3';
-import {Card, Button, Menu, Container} from 'semantic-ui-react';
+import {Card, Button, Menu, Container, Image} from 'semantic-ui-react';
 import supplychain from '../ethereum/supplychain.js';
 import Layout from '../components/layout';
 import InfoCards from '../components/InfoCards/InfoCards'
@@ -55,9 +55,9 @@ class SupplychainIndex extends Component{
 
         return(
             <Layout>
-               {/* <h1>{this.state.medicines}</h1> */}
                <div style={{alignContent: "center"}}>
-                  <h1>Menu Principal</h1>
+                 <Image style={{height: '40%', width: '40%', marginLeft: '26%'}}src='../static/MeditrackImage.png' />
+                  <h1 style={{marginTop: '50px', marginLeft: '40%', marginBottom: '56px', fontFamily: 'Comic Sans MS'}}>Menu Principal</h1>
                   {this.props.manager === this.state.account ? <h2 style={{color: "blue"}}>Manager</h2> : null}
                   <h4 style = {{color: "gray", marginTop: "0px"}}>Bem vindo, usuário da carteira {this.state.account}</h4>
                   <h5>A cadeia de suprimentos foi criada no dia {this.props.begin}</h5>

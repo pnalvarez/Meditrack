@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Menu} from 'semantic-ui-react';
+import {Menu, Image} from 'semantic-ui-react';
 import web3 from '../ethereum/web3';
 import {Link} from '../routes'
 
@@ -17,7 +17,9 @@ class Header extends Component{
         return (
             <Menu>
                 <Link route="/">
-                  <a className="item">Meditrack</a>
+                  <a className="item">
+                    <Image style={{height: '100%', width:'100%'}} src='../static/MeditrackLogo.png'/>
+                  </a>
                 </Link>
                 <Menu.Menu position="right">
                         <a href="https://github.com/pnalvarez/Contrato-Meditrack/blob/master/Meditrack.sol" className="item">Contrato</a>            

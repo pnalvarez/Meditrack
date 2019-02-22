@@ -17,10 +17,10 @@ export default class InfoCards extends Component {
         <div className="card" >
             <div className="content">
                 <div className="header">
-                    Endereço
+                    Ethereum Address
                 </div>
                 <div className="description">
-                   <p style = {{fontSize: "10px"}}>
+                   <p style = {{fontSize: "11px"}}>
                     {this.props.address}
                     </p>
                 </div>
@@ -29,7 +29,7 @@ export default class InfoCards extends Component {
         <div className="card">
             <div className="content">
                 <div className="header">
-                   Seu saldo
+                   Your Balance
                 </div>
                 <div className="description">
                     {web3.utils.fromWei(this.props.balance, 'ether')} ether
@@ -39,7 +39,7 @@ export default class InfoCards extends Component {
         <div className="card">
             <div className="content">
                 <div className="header">
-                    Sua Funcao 
+                    Your Function on the Supply Chain
                 </div>
                 <div className="description">
                     {this.props.funcao}
@@ -49,7 +49,7 @@ export default class InfoCards extends Component {
         <div className="card">
             <div className="content">
                 <div className="header">
-                    Sinistros cadastrados
+                    Number of Sinisters
                 </div>
                 <div className="description">
                     {this.props.sinisters}
@@ -59,7 +59,7 @@ export default class InfoCards extends Component {
         <div className="card">
             <div className="content">
                 <div className="header">
-                    Carteira criada em:
+                    Wallet Created at:
                 </div>
                 <div className="description">
                     {this.props.creationTime}

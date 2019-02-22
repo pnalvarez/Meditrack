@@ -11,7 +11,7 @@ export default class trackProduct extends Component {
       uuid1: '',
       owner1: 'Result: ',
       uuid2: '',
-      owner2: '',
+      owner2: 'Result: ',
       dateString: '',
       errorMessage1: '',
       errorMessage2: ''

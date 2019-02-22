@@ -183,13 +183,15 @@ contract Supplychain{
     }
 
     modifier supplychainRule(address from, address to){ //TESTAR ISSO AQUI
-      bool[4] memory rules =  //Productor -> Transport -> Stock -> Seller -> Buyer
+      bool[5] memory rules =  //Productor -> Transport -> Stock -> Seller -> Buyer
       [wallets[from].func == Function.Productor && wallets[to].func == Function.Transport,
       wallets[from].func == Function.Transport && wallets[to].func == Function.Stock,
+      wallets[from].func == Function.Stock && wallets[to].func == Function.Stock,
       wallets[from].func == Function.Stock && wallets[to].func == Function.CirurgicCenter,
       wallets[from].func == Function.Stock && wallets[to].func == Function.Seller];
 
        bool ok = false;
+
 
        for(uint i = 0; i< rules.length; i++){
          if(rules[i]){

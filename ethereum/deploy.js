@@ -1,7 +1,6 @@
 
 const HDWalletProvider = require('truffle-hdwallet-provider');
 const Web3 = require('web3');
-const ganache = require('ganache-cli');
 const compiledSupplychain = require('./build/Supplychain.json');
 const gasValue = '6721975';
 
@@ -17,7 +16,7 @@ const deploy = async () =>{
   const accounts = await web3.eth.getAccounts();
 
   console.log('Atempting to deploy from account', accounts[0]);
-  const result = await new web3.eth.Contract(JSON.parse(compiledSupplychain.interface)).deploy({data: '0x' + compiledSupplychain.bytecode}).send({ gas: '6000000', from: accounts[0]});
+  const result = await new web3.eth.Contract(JSON.parse(compiledSupplychain.interface)).deploy({data: '0x' + compiledSupplychain.bytecode}).send({ gas: gasValue, from: accounts[0]});
   console.log('Contract deployed to', result.options.address);
 };
 
