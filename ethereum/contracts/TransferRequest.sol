@@ -9,6 +9,12 @@ contract TransferRequest is Request{
     
     event TransferRequestCreated(string  productId, address sender, address approver);
     event Approved();
+    event NewApprover(address newApprover);
+    
+    modifier notApproved{
+        require(!approved, "This has already been approved");
+        _;
+    }
     
     modifier onlyApprover{
         require(msg.sender == approver, "he is not the approver");
@@ -26,7 +32,17 @@ contract TransferRequest is Request{
         emit TransferRequestCreated( _productId, _sender, _approver);
     }
     
-    function approve() onlyApprover public returns(bool){
+    function getProductId()public view returns(string){
+        
+        return productId;
+    }
+    
+    function getApprover()public view returns(address){
+        
+        return approver;
+    }
+    
+    function approve() onlyApprover notApproved public returns(bool){
         require(!voted[msg.sender], "has already approved");
         
         approved = true;
@@ -35,5 +51,11 @@ contract TransferRequest is Request{
         emit Approved();
         
         return approved;
+    }
+    
+    function updateApprovers(address newApprover)public {
+        
+        approver = newApprover;
+        emit NewApprover(newApprover);
     }
 }

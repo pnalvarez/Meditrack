@@ -1,17 +1,154 @@
-pragma solidity ^0.4.18;
+pragma solidity ^0.4.23;
 pragma experimental ABIEncoderV2;
 
-contract Supplychain{
-    //Enum que atribui uma funcao na cadeia para cada usuario de carteira
+contract Request{
+    
+    uint public id;
+    bool approved;
+    mapping(address => bool) voted;
+  
+    function isApproved()public view returns(bool){
+        return approved;
+    }
+    
+    function approve()public returns(bool);
+    function updateApprovers(address newApprover) public;
+}
 
-    //STRUCTURES
+contract TransferRequest is Request{
+    
+    string public productId;
+    address public approver;
+    address public sender;
+    
+    event TransferRequestCreated(string  productId, address sender, address approver);
+    event Approved();
+    event NewApprover(address newApprover);
+    
+    modifier notApproved{
+        require(!approved, "This has already been approved");
+        _;
+    }
+    
+    modifier onlyApprover{
+        require(msg.sender == approver, "he is not the approver");
+        _;
+    }
+    
+    constructor(uint _id, address _approver, string _productId, address _sender)public{
+        
+        productId = _productId;
+        id = _id;
+        approver = _approver;
+        sender = _sender;
+        approved = false;
+        
+        emit TransferRequestCreated( _productId, _sender, _approver);
+    }
+    
+    function getProductId()public view returns(string){
+        
+        return productId;
+    }
+    
+    function getApprover()public view returns(address){
+        
+        return approver;
+    }
+    
+    function approve() onlyApprover notApproved public returns(bool){
+        require(!voted[msg.sender], "has already approved");
+        
+        approved = true;
+        voted[msg.sender] = true;
+        
+        emit Approved();
+        
+        return approved;
+    }
+    
+    function updateApprovers(address newApprover)public {
+        
+        approver = newApprover;
+        emit NewApprover(newApprover);
+    }
+}
+
+contract ManagerRequest is Request{
+    
+    address public newManager;
+    address[] public approvers;
+    uint public approveCounts;
+    
+    event ApprovedBy(address approver);
+    event Approved(uint approveCounts);
+    event NewApprover(address newApprover);
+    
+    modifier notApproved{
+        require(!approved, "This has already been approved");
+        _;
+    }
+    
+    modifier hasntVoted{
+        require(!voted[msg.sender], "has already voted");
+        _;
+    }
+    
+    modifier onlyAprover{
+        
+     bool isAprover = false;
+     
+    for(uint i = 0; i < approvers.length; i++){
+        if(approvers[i] == msg.sender){
+            isAprover = true;
+        }
+     }
+    require(isAprover);
+    _;
+    }
+    
+    constructor(uint _id, address _newManager, address[] _approvers)public{
+        
+        id = _id;
+        newManager = _newManager;
+        approvers = _approvers;
+        approveCounts = 0;
+        approved = false;
+    }
+    
+    function getNewManager()public view returns(address){
+        
+        return newManager;
+    }
+    
+    function approve()public hasntVoted notApproved onlyAprover returns(bool){
+        
+        approveCounts += 1;
+        voted[msg.sender] = true;
+        emit ApprovedBy(msg.sender);
+        
+        if(approveCounts >= approvers.length / 2){
+            approved = true;
+            emit Approved(approveCounts);
+        }
+        
+        return approved;
+    }
+    
+    function updateApprovers(address newApprover)public{
+        
+        approvers.push(newApprover);
+        emit NewApprover(newApprover);
+    }
+}
+
+contract Supplychain{
 
     enum Function{
 
         Nothing, Productor, Stock, Transport, CirurgicCenter, Seller,  Buyer
     }
-    //representa um recibo para quem adquiriu um medicamento
-    struct Receive{ //DÁ PRA TIRAR DA BLOCKCHAIN
+    struct Receive{ 
 
         string uuid;
         string id;
@@ -19,126 +156,93 @@ contract Supplychain{
         address from;
         address to;
     }
-    //representa a carteira de uma pessoa ou depósito
+  
     struct Wallet{
-
-        mapping(string => uint) medicines;//tipos de remedios que a carteira possui //DÁ PRA TIRAR DA BLOCKCHAIN
-        mapping(string => bool) products;//produtos individuais que a carteira possui
+        
+        bool isManager;
+        mapping(string => uint) medicines;
+        mapping(string => bool) products;
         uint creationTime;
-        Function func; //funcao dessa carteira na cadeia supplychain
+        Function func; 
     }
-   //representa um tipo de medicamento
+
     struct Medicine{
 
         string name; 
         string description;
         bool initialized;
-        uint value; //preço
+        uint value; 
         uint validity;
-        /* string components; */
     }
-    //representa um produto único
     struct Product{
 
-        string id; //Tipo do medicamento
-        address owner;//dono corrente
-        bool isValid; //esta na validade
+        string id; 
+        address owner;
+        bool isValid; 
         uint creationTime;
         address[] path;
         uint[] timestamps;
-        uint pathLength;
     }
-    //Produto incompleto que nao pode sair das maos do produtor enquanto nao estiver pronto
-    /* struct IncompleteProduct{
 
-      string id;
-      address owner;
-      string[] components;
-    } */
-    //representa um possivel sinistro para um produto no meio da cadeia
     struct Sinister {
 
-        string id;
         string title;
         string description;
-        string envolvedProduct; //identificador do produto unico
-        address responsible; //quem estava de posse de tal produto
-        uint timestamp; //hora
+        string envolvedProduct; 
+        address responsible; 
+        uint timestamp; 
     }
 
-    //STRUCTURES END
 
-    //VARIABLES
+    address[] public managers;
 
-    //contract manager
-    address public manager;
-
-    //mapeia a id unica do tipo de medicamento para sua respectiva struct
     mapping(string => Medicine)private medicines;
-
-    //mapeia um endereco do dono da carteira a sua respectiva struct descrevendo
-    //tudo o que ele tem
     mapping(address => Wallet)private wallets;
-    //mapeia um produto unico ao seu tipo de medicamento e seu dono
     mapping(string => Product)private products;
-    //mapeia id de um produto verificando se ele existe na cadeia
     mapping(string => bool)private productExist;
-
     string[]public medicineNames;
     string[]public allProducts;
     address[]public allWallets;
-    //verifica se uma carteira participa ou nao da cadeia
     mapping(address => bool)private participates;
-    //Time when contract was deployed
     uint public begin;
-    //lista de recibos obtidos por um endereço
     mapping(address => Receive[]) receives;
-    //lista de sinistros verificados por um endereço
     mapping(address => Sinister[]) sinisters;
-    /*mapping que indica se uma carteira está dentro do centro alfa*/
     mapping(address => bool) isInAlfaCenter;
     mapping(string => Function) stringToFunction;
     mapping(string => bool) productWasDeleted;
-    mapping(string=>Sinister) sinisterMapping;
-    Sinister[] allSinisters;
-    
-    //VARIABLES END
+    ManagerRequest[] managerRequests;
+    TransferRequest[] transferRequests;
+    Sinister[] public allSinisters;
 
-    /* mapping(string => bool) knownComponent;
-    mapping(string => IncompleteProduct) incompleteProducts; */
-
-    //EVENTS
-    event medicineCreated(string id); //novo tipo de medicamento criado
-    event medicineTransfered(string uuid, string id, address from, address to);//medicamento transerido entre carteiras
-    event productGenerated(address by, string uuid, string id);//produto gerado por um produtor
-    event changeSent(address to, uint change); //troco enviado
-    event medicineBought(address by, string uuid); //produto comprado
-    event FunctionDesignated(address to, Function f); //funcao designada
-    event ProductOutOfValidity(string uuid, string id, uint time); //produto venceu a validade
-    event NewSinister(string id, string title, string uuid, address responsible); //sinistro notificado
-    event PathIncremented(string uuid, string id, address adr, uint timestamp); //caminho de um produto incrementado
+    event medicineCreated(string id); 
+    event medicineTransfered(string uuid, string id, address from, address to);
+    event productGenerated(address by, string uuid, string id);
+    event changeSent(address to, uint change); 
+    event medicineBought(address by, string uuid); 
+    event FunctionDesignated(address to, Function f); 
+    event ProductOutOfValidity(string uuid, string id, uint time); 
+    event NewSinister(string title, string uuid, address responsible); 
+    event PathIncremented(string uuid, string id, address adr, uint timestamp); 
     event DiscardedProduct(string uuid, address lastowner, uint timestamp);
     event ThrowProductAway(string uuid, address by, uint timestamp);
-    //EVENTS END
+    event NewRequest();
+    event NewManagerApproved(address newManager);
 
-    //MODIFIERS
-
-    /*somente o administrador pode mexer*/
     modifier onlyManager{
-        require(msg.sender == manager, "only manager");
+        require(wallets[msg.sender].isManager, "only manager");
         _;
     }
-    /*So alguem com um papel especifico pode chamar a funcao*/
+
     modifier only(Function f){
         require(wallets[msg.sender].func == f, "This person is not applied here");
         _;
     }
-    /*Verifica se um produto existe*/
+
     modifier productExists(string uuid){
          require(productExist[uuid], "This product does not exist");
         _;
     }
-    /*Verifica se uma pessoa detem um produto*/
+
     modifier productOwner(address a, string uuid){
         string memory message;
 
@@ -152,7 +256,7 @@ contract Supplychain{
         require(wallets[a].products[uuid], message);
         _;
     }
-    /*Verifica se uma pessoa esta na cadeia*/
+
     modifier personExists(address a){
         string memory message;
 
@@ -166,12 +270,12 @@ contract Supplychain{
         require(participates[a], message);
         _;
     }
-    /*Verifica se um produto esta na validade*/
+
     modifier validProduct(string uuid){
         require(products[uuid].isValid, "Only valid producsts here");
         _;
     }
-    //modifier que é chamado no inicio de toda transação para verificar se os produtos estao na validade
+
     modifier checkTime{
         checkValidity();
         _;
@@ -182,8 +286,8 @@ contract Supplychain{
       _;
     }
 
-    modifier supplychainRule(address from, address to){ //TESTAR ISSO AQUI
-      bool[5] memory rules =  //Productor -> Transport -> Stock -> Seller -> Buyer
+    modifier supplychainRule(address from, address to){ 
+      bool[5] memory rules = 
       [wallets[from].func == Function.Productor && wallets[to].func == Function.Transport,
       wallets[from].func == Function.Transport && wallets[to].func == Function.Stock,
       wallets[from].func == Function.Stock && wallets[to].func == Function.Stock,
@@ -191,7 +295,6 @@ contract Supplychain{
       wallets[from].func == Function.Stock && wallets[to].func == Function.Seller];
 
        bool ok = false;
-
 
        for(uint i = 0; i< rules.length; i++){
          if(rules[i]){
@@ -202,13 +305,10 @@ contract Supplychain{
       _;
     }
 
-    //MODIFIERS END
-
-    //CONSTRUTOR
     constructor()public{
-        manager = msg.sender;
+        managers.push(msg.sender); //managers.push(msg.sender);
         begin = now;
-        wallets[msg.sender] = Wallet(now, Function.Productor);
+        wallets[msg.sender] = Wallet(true,now, Function.Productor);
         participates[msg.sender] = true;
 
         stringToFunction["Nothing"] = Function.Nothing;
@@ -219,26 +319,13 @@ contract Supplychain{
         stringToFunction["Seller"] = Function.Seller;
         stringToFunction["Buyer"] = Function.Buyer;
     }
-    //END OF CONSTRUCTOR
 
-    // function createComponent(string component) onlyManager{
-    //   require(knownComponent[component], "This component has already been created");
-
-    //   knownComponent[component] = true;
-    // }
-
-   //Funções auxiliares(private)
-   //AUXILIAR
-   //AUXILIAR
-
-   /*Função que designa uma função para uma carteira*/ //GeneralSupplychain
-   function designateFunction(address wallet, string func)private checkTime{ //Essa funcao nao esta sendo usada
+   function designateFunction(address wallet, string func)private checkTime{ 
 
        wallets[wallet].func = stringToFunction[func];
        emit FunctionDesignated(wallet, stringToFunction[func]);
    }
 
-   /*Busca sequencial de um recibo*/ //GeneralSupplychain
    function searchReceive(address a, string uuid)private view returns(int){
 
        for(int i = 0; i < int(receives[a].length); i++){
@@ -251,7 +338,6 @@ contract Supplychain{
        return -1;
    }
 
-   /*Transfere um produto de um endereco para outro*/ //Wallet
    function transferOperation(address from, string uuid, address to)private
    returns(Receive){
 
@@ -276,9 +362,7 @@ contract Supplychain{
 
        return receive;
    }
-
-   /*Funcao que retira a posse do medicamento de alguem*/
-   function sendMedicine(string uuid)private{ //Wallet
+   function sendMedicine(string uuid)private{ 
 
         string memory id = products[uuid].id;
 
@@ -286,8 +370,7 @@ contract Supplychain{
        wallets[msg.sender].medicines[id] -= 1;
    }
 
-   /*Funcao que envia o troco de funcoes payable*/
-   function sendChange()private returns(uint){ //Wallet
+   function sendChange()private returns(uint){ 
        uint balance = address(this).balance;
        msg.sender.transfer(balance);
 
@@ -296,7 +379,6 @@ contract Supplychain{
        return balance;
    }
 
-   /*Funcao auxiliar para comparar strings*/ //GeneralSupplychain
    function compareStrings (string a, string b)private pure returns (bool){
        if(bytes(a).length != bytes(b).length){
            return false;
@@ -306,7 +388,7 @@ contract Supplychain{
        }
   }
 
-  function searchProductIndex(string uuid)public view returns(int){ //GeneralSupplychain
+  function searchProductIndex(string uuid)public view returns(int){ 
 
       for(int i = 0; i < int(allProducts.length); i++){
         uint ui = uint(i);
@@ -320,15 +402,14 @@ contract Supplychain{
       return -1;
   }
 
-  /*Funcao que verifica a validade de cada produto da cadeia*/
-  function checkValidity()private{ //ValidityIterator
+  function checkValidity()private{ 
 
       for(uint i = 0; i < allProducts.length; i++){
 
           Product storage product = products[allProducts[i]];
 
            if(product.isValid){
-               uint timestamp = now - product.creationTime; //pega o quanto tem de tempo desde que o produto foi criado
+               uint timestamp = now - product.creationTime;
 
                if(timestamp >= medicines[product.id].validity){
                     product.isValid = false;
@@ -338,19 +419,17 @@ contract Supplychain{
       }
   }
 
-  /*salva um novo usuário no caminho percorrido pelo produto uuid*/ //Wallet
   function incrementPath(string uuid, address adr)private productExists(uuid){
 
        uint time = now;
 
        products[uuid].path.push(adr);
        products[uuid].timestamps.push(time);
-       products[uuid].pathLength += 1;
 
        emit PathIncremented(uuid, products[uuid].id, adr, time);
   }
 
-  function discardProduct(string uuid)private productExists(uuid){ //Sinisters
+  function discardProduct(string uuid)private productExists(uuid){ 
 
       address owner = getOwnerof(uuid);
       string storage id = products[uuid].id;
@@ -372,38 +451,24 @@ contract Supplychain{
 
       emit DiscardedProduct(uuid, owner, timestamp);
   }
-
-   //END OF AUXILIAR
-   //END OF AUXILIAR
-   //END OF AUXILIAR
-
-   //Funções transação de interface com usuário
-   //TRANSACTIONS
-   //TRANSACTIONS
-   //TRANSACTIONS
-   /*Funcao que apenas cria um tipo de medicamentos para ficar d=*/
    function medicineCreate(string id, string _name, string _description, uint _value, uint _validity)
    public onlyManager checkTime{
        require(!medicines[id].initialized, "Medicine already exists");
 
-       medicines[id] = Medicine(_name, _description,true, _value, _validity);
+       medicines[id] = Medicine(_name, _description, true, _value, _validity);
        medicineNames.push(id);
-       wallets[manager].medicines[id] = 0;
 
-       
        emit medicineCreated(id);
    }
 
-   /*Função que cria uma carteira para um participante*/
-   function createWallet(address adr,string f)public onlyManager
+   function createWallet(address adr, string f)public onlyManager
     inexistantWallet(adr){
 
-       wallets[adr] = Wallet(now,stringToFunction[f]);
+       wallets[adr] = Wallet(false,now,stringToFunction[f]);
        participates[adr] = true;
        allWallets.push(adr);
    }
 
-   /*Funcao que de fato cria um medicamento com um identificador unico naquela categoria de medicamentos identificada por id*/
    function medicineGenerate(string uuid, string id)public only(Function.Productor) 
    checkTime{
        require(medicines[id].initialized, "medicine does not exist");
@@ -417,7 +482,7 @@ contract Supplychain{
 
        address[] memory array;
        uint[] memory times;
-       products[uuid] = Product(id, msg.sender, true, time, array, times, 0);
+       products[uuid] = Product(id, msg.sender, true, time, array, times);
 
        incrementPath(uuid, msg.sender);
        allProducts.push(uuid);
@@ -425,7 +490,6 @@ contract Supplychain{
        emit productGenerated(msg.sender,uuid,id);
    }
 
-   //Funcao que pega uma unidade de medicamento e transfere para outra carteira
    function transfer(string uuid, address to)public
    validProduct(uuid)
    productOwner(msg.sender, uuid)
@@ -436,7 +500,6 @@ contract Supplychain{
 
    }
 
-   /*Funcao que serve para um usuario final comprar o medicamento de alguma parte da cadeia*/
    function buyMedicine(address from, string uuid)public payable
    only(Function.Buyer)
    productExists(uuid) productOwner(from, uuid) checkTime
@@ -453,19 +516,73 @@ contract Supplychain{
 
        return change;
    }
+   
+   function addNewManagerRequest(address newManager)public
+   onlyManager
+   personExists(newManager)
+   checkTime {
+       require(!wallets[newManager].isManager, "he is already a manager");
+       
+       ManagerRequest request = new ManagerRequest(managerRequests.length, newManager, managers);
+       managerRequests.push(request);
+       
+       emit NewRequest();
+   }
+   
+   function approveNewManagerRequest(uint id)public checkTime{
+       require(managerRequests.length > id, "Request invalid");
+       
+       managerRequests[id].approve();
+       
+       if(managerRequests[id].isApproved()){
+           
+           address newManager = managerRequests[id].getNewManager();
+           managers.push(newManager);
+           
+           for(uint i = 0; i < managerRequests.length; i++){
+               if(!managerRequests[i].isApproved()){
+                   managerRequests[i].updateApprovers(newManager);
+               }
+           }
+           
+           emit NewManagerApproved(newManager);
+       }
+   }
+   
+   function newTransferRequest(string uuid, address to)public
+   validProduct(uuid)
+   productOwner(msg.sender, uuid)
+   supplychainRule(msg.sender, to)
+   checkTime{
+       
+       TransferRequest request = new TransferRequest(transferRequests.length, to, uuid, msg.sender);
+       transferRequests.push(request);
+       
+       emit NewRequest();
+   }
+   
+   function approveTransferRequest(uint id)public checkTime{
+       require(transferRequests.length > id, "Request invalid");
+       
+       transferRequests[id].approve();
+       
+       string memory uuid = transferRequests[id].getProductId();
+       address to = transferRequests[id].getApprover();
+       
+       transferOperation(msg.sender, uuid, to);
+   }
 
-   /*Função chamada por um usuário para notificar um sinistro com um produto de sua posse*/
-   function notifySinister(string _id, string _title, string _description, string _product)public checkTime
+   function notifySinister(string _title, string _description, string _product)public checkTime
    productExists(_product) productOwner(msg.sender, _product) returns(Sinister){
 
        uint _timestamp = now;
-       Sinister memory sinister = Sinister(_id, _title,_description,_product,msg.sender,_timestamp);
+       Sinister memory sinister = Sinister(_title,_description,_product,msg.sender,_timestamp);
        sinisters[msg.sender].push(sinister);
        allSinisters.push(sinister);
-       sinisterMapping[_id] = sinister;
+       
        discardProduct(_product);
 
-       emit NewSinister(_id, _title, _product, msg.sender);
+       emit NewSinister(_title, _product, msg.sender);
 
        return sinister;
    }
@@ -477,19 +594,11 @@ contract Supplychain{
 
        emit ThrowProductAway(uuid, msg.sender, timestamp);
    }
-   //TRANSACTIONS END
-   //TRANSACTIONS END
-   //TRANSACTIONS END
 
-   //Funções de acesso para o usuário
-   //ACCESS
-   //ACCESS
-   /*Rastreia u medicamento devolvendo o seu dono atual*/
    function getOwnerof(string uuid)public view returns(address){
        return products[uuid].owner;
    }
 
-   /*Funcao de acesso que devolve um recibo de um produto*/
    function getReceive(string uuid)public view returns(Receive){
        int index = searchReceive(msg.sender, uuid);
 
@@ -498,7 +607,6 @@ contract Supplychain{
        return receives[msg.sender][ui];
    }
 
-   /*funcao que retorna onde estava um produto uuid dado um horário específico*/
    function trackProduct(string uuid, uint timestamp)public view
     productExists(uuid) returns(address){
       uint currentTime = now;
@@ -514,16 +622,7 @@ contract Supplychain{
       }
       return products[uuid].owner;
    }
-   //ACCESS END
-   //ACCESS END
-   //ACCESS END
 
-   //Funções de acesso para testes
-   //TEST
-   //TEST
-   //TEST
-
-   //Funcoes de acesso referentes a um Medicine
    function getMedicineName(string id)public view returns(string){
      return medicines[id].name;
    }
@@ -537,7 +636,6 @@ contract Supplychain{
      return medicines[id].validity;
    }
 
-   //Funcoes de acesso referentes a uma Wallet
    function getWalletMedicineQtd(address adr, string id)public view returns(uint){
       return wallets[adr].medicines[id];
    }
@@ -573,7 +671,6 @@ contract Supplychain{
        return wallets[adr].creationTime;
    }
 
-   //Funcoes de acesso referentes a um Product
    function getProductExist(string uuid)public view returns(bool){
      return productExist[uuid];
    }
@@ -593,14 +690,10 @@ contract Supplychain{
    function getProductCreator(string uuid)public view returns(address){
        return products[uuid].path[0];
    }
-   function getProductPathLength(string uuid)public view returns(uint){
-       return products[uuid].pathLength;
-   }
    function getTimestamp(string uuid, uint index)public view returns(uint){
        return products[uuid].timestamps[index];
    }
 
-   //Funcoes de acesso referentes a um Receive
    function getReceiveProduct(uint index, address adr)public view returns(string){
      return receives[adr][index].uuid;
    }
@@ -620,16 +713,6 @@ contract Supplychain{
        return receives[adr].length;
    }
 
-   //Funcoes de acesso referentes a um sinistros
-   function getSinisterIdMapping(string id)public view returns(string){
-       return sinisterMapping[id].id;
-   }
-   function getSinisterIdArray(uint index)public view returns(string){
-       return  allSinisters[index].id;
-   }
-   function getSinisterId(uint index, address adr)public view returns(string){
-       return sinisters[adr][index].id;
-   }
    function getSinisterTitle(uint index, address adr)public view returns(string){
         return sinisters[adr][index].title;
    }
@@ -648,7 +731,6 @@ contract Supplychain{
    function getSinistersQtd(address adr)public view returns(uint){
        return sinisters[adr].length;
    }
-   //balance
    function getBalanceof(address adr)public view returns(uint){
      return adr.balance;
    }
@@ -660,9 +742,7 @@ contract Supplychain{
       return index >= 0;
 
    }
-   //TEST END
-   //TEST END
-   //TEST END
+
    function getMedicineNamesTotal()public view returns(uint){
     return medicineNames.length;
 }
@@ -674,14 +754,3 @@ contract Supplychain{
   }
   
 }
-
-
-/*Contratos que podem ser quebrados:
-
-      contrato Wallet
-      c
-*/
-
-//OBS: Estava tratando o timestamp do contrato, dos recibos e das criações de produtos
-//apenas como segundos decorridos desde a criação do contrato e eu deveria fazer isso 
-//considerando todos os segundos obtidos desde 1970
