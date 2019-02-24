@@ -2,7 +2,7 @@
 const HDWalletProvider = require('truffle-hdwallet-provider');
 const Web3 = require('web3');
 const compiledSupplychain = require('./build/Supplychain.json');
-const gasValue = '67219750000';
+const gasValue = '6721975';
 
 const provider = new HDWalletProvider('lunar during concert behave leg praise goose rain ready bicycle dizzy twin', 'https://ropsten.infura.io/v3/65a51c67cb5c421cb28d9f46ae068dd0');
 
